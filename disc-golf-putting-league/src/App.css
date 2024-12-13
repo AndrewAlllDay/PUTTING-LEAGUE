@@ -20,3 +20,31 @@ button {
   margin: 10px;
   padding: 10px 20px;
 }
+
+.round-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.previous-round-button {
+  font-size: 24px;
+  /* Arrow size */
+  margin-right: 10px;
+  /* Space between arrow and round number */
+  cursor: pointer;
+}
+
+h2 {
+  margin: 0;
+  /* Remove default margin on the h2 to prevent space around the round number */
+}
+
+.small-title {
+  font-size: 20px;
+  /* smaller font size */
+  font-weight: 300;
+  /* lighter font weight */
+  color: #ccc;
+  /* lighter gray color */
+}
