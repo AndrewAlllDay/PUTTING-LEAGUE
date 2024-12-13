@@ -33,7 +33,7 @@ function Round({
   };
 
   return (
-    <div>
+    <div className='card-width'>
       <h2>Round {currentRoundIndex + 1}</h2>
       <h3>Station {currentStationIndex + 1}</h3>
       {players.map((player, index) => {

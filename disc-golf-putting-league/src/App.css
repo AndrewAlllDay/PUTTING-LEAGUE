@@ -1,11 +1,26 @@
+/* Prevent side scrolling */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden; /* Prevent horizontal overflow */
+  width: 100%;
+}
+
 /* Ensure the entire app container takes up the full height of the screen */
 .app-container {
   display: flex;
   flex-direction: column; /* Stack elements vertically */
   height: 100vh; /* Full viewport height */
   justify-content: flex-start; /* Align content to the top */
-  padding: 10px; /* Optional: add some padding to avoid elements touching the edges */
+  padding: 15px; /* Added more padding for mobile devices */
   box-sizing: border-box; /* Include padding in the element's total width/height */
+  overflow-x: hidden; /* Prevent horizontal overflow */
 }
 
 /* App main content */
@@ -16,36 +31,36 @@
   align-items: center; /* Center the content horizontally */
   justify-content: flex-start; /* Ensure the content starts from the top */
   overflow: auto; /* Allow scrolling if the content overflows */
+  width: 100%; /* Ensure full width on mobile */
 }
 
-/* Make sure your title is placed at the top */
+/* Title */
 .title {
+  font-size: 1.8rem; /* Smaller title font size for mobile */
+  margin-bottom: 20px;
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 20px; /* Space between the title and the rest of the content */
 }
 
+/* Card title */
 .card-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #333;
-  text-align: center;
+  font-size: 1.5rem; /* Make the font size larger */
+  font-weight: bold; /* Bold font */
+  margin-bottom: 10px; /* Space below the title */
+  color: #333; /* Dark color for the title */
+  text-align: center; /* Center the title */
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
+/* Button Styling */
 button {
   margin-top: 10px;
-  padding: 10px 20px;
-  font-size: 1rem;
+  padding: 12px 24px; /* Larger button for easier tapping */
+  font-size: 1.1rem; /* Slightly larger font size */
   background-color: #4caf50;
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 5px;
+  width: 100%; /* Full-width buttons */
 }
 
 button:disabled {
@@ -57,9 +72,10 @@ button:hover:not(:disabled) {
 }
 
 /* Input Styling */
+input[type="text"],
 input[type="number"] {
   width: 100%;
-  padding: 8px;
+  padding: 10px; /* Increased padding for easier input */
   font-size: 1rem;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -67,6 +83,8 @@ input[type="number"] {
   box-sizing: border-box;
 }
 
+/* Focus state */
+input[type="text"]:focus,
 input[type="number"]:focus {
   border-color: #0077cc;
   outline: none;
@@ -81,48 +99,35 @@ ul {
 
 ul li {
   background: #f1f1f1;
-  margin: 5px 0;
-  padding: 10px;
+  margin: 10px 0; /* More space between list items */
+  padding: 12px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: left;
+  width: 100%; /* Ensure it takes up full width */
 }
 
-/* Headers */
+/* Player card header */
 h2 {
-  font-size: 2.5rem; /* Adjust this size as needed */
+  font-size: 1.8rem; /* Adjust header size for mobile */
   font-weight: bold;
-  color: #333; /* You can change the color to match your design */
-  margin-bottom: 20px; /* Add spacing below the round number */
+  color: #333;
+  margin-bottom: 10px;
 }
 
-/* Player List */
-h4 {
-  font-size: 1.2rem;
-  color: #555;
-  margin: 10px 0 5px;
-}
-
-/* Save Scorecard */
-button:last-child {
-  background-color: #28a745;
-}
-
-button:last-child:hover:not(:disabled) {
-  background-color: #218838;
-}
-
+/* Player score card */
 .player-score-card {
-  border: 1px solid #ccc;
-  padding: 10px;
+  padding: 12px;
   margin: 10px 0;
   border-radius: 8px;
   background-color: #f9f9f9;
+  width: 100%; /* Wider player score cards */
+  max-width: 800px; /* Max width to prevent it from becoming too large */
 }
 
 .player-score-card h4 {
+  font-size: 1.4rem;
   margin: 0;
-  font-size: 1.2em;
 }
 
 .player-score-card p {
@@ -131,63 +136,122 @@ button:last-child:hover:not(:disabled) {
   color: #333;
 }
 
-.player-score-card input {
-  margin-top: 5px;
-  padding: 5px;
-  width: 100%;
-  max-width: 200px;
-  font-size: 1em;
-}
-
-.card-title {
-  font-size: 1.5rem; /* Make the font size larger */
-  font-weight: bold; /* Bold font */
-  margin-bottom: 10px; /* Space below the title */
-  color: #333; /* Dark color for the title */
-  text-align: center; /* Center the title */
-}
-
-/* Apply padding to the entire form container */
+/* Flexbox improvements for small screens */
 .add-player {
   display: flex;
-  justify-content: center;
+  flex-direction: column; /* Stack the input and button vertically */
   align-items: center;
   margin-bottom: 10px;
-  padding-right: 20px; /* Padding on the right side of the form */
 }
 
-/* Apply styling to the input field */
 .add-player input {
-  flex-grow: 1; /* Allow input to expand */
-  padding: 8px; /* Add padding inside the input */
-  margin-right: 10px; /* Space between input and button */
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 1rem;
+  width: 100%; /* Full-width input for easy typing */
 }
 
-/* Apply styling to the button */
 .add-player button {
-  padding: 8px 12px;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
+  padding: 10px;
+  font-size: 1.1rem;
+  width: 100%; /* Full-width button */
 }
 
-/* Button hover effect */
-.add-player button:hover {
-  background-color: #45a049;
+/* Save Scorecard Button Styling */
+button:last-child,
+button:nth-last-child(2) {
+  width: 100%; /* Full width for these critical buttons */
+  padding: 14px; /* Larger buttons for better accessibility */
+  font-size: 1.1rem;
 }
 
-/* Responsive Design */
+/* Station Header Styling */
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Mobile Layout Adjustments */
 @media (max-width: 600px) {
-  .app-main {
-    width: 95%;
+  /* App container */
+  .app-container {
+    padding: 10px; /* Reduce padding for smaller screens */
   }
 
+  .app-main {
+    width: 100%;
+    padding: 10px; /* Padding adjustment */
+  }
+
+  .title {
+    font-size: 1.6rem; /* Smaller title on mobile */
+    margin-bottom: 15px;
+  }
+
+  .card-title,
+  h4 {
+    font-size: 1.4rem; /* Reduce font size for smaller screens */
+  }
+
+  /* Adjust button to be full width on mobile */
   button {
     width: 100%;
+    font-size: 1.1rem; /* Slightly larger font for easy tapping */
   }
+
+  /* Adjust player list styling for mobile */
+  ul li {
+    padding: 10px;
+    font-size: 1rem; /* Reduce font size for mobile */
+  }
+
+  /* Input fields should be larger for ease of use on mobile */
+  input[type="text"],
+  input[type="number"] {
+    font-size: 1rem;
+    padding: 12px;
+    width: 100%;
+  }
+}
+
+.card-width {
+  width: 100%;
+}
+
+/* Style for the Scorecard component */
+.scorecard-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.scorecard-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.scorecard-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+.scorecard-item:last-child {
+  border-bottom: none;
+}
+
+.player-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.player-total {
+  font-size: 1.2rem;
+  color: #0077cc;
 }

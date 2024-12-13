@@ -1,33 +1,27 @@
 import React from 'react';
 
-function Scorecard({ rounds, players }) {
-  // Function to calculate total score across all rounds for each player
-  const calculateTotalScore = (player) => {
-    return rounds.reduce((total, round) => {
-      const playerScores = round[player] || [];
-      return total + playerScores.reduce((sum, score) => sum + score, 0);
-    }, 0);
-  };
+function Scorecard({ totalScores = {}, players = [] }) {
+  if (players.length === 0) {
+    return <p>No players to display.</p>;
+  }
 
   return (
-    <div>
-      <h2>Scorecard</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th>Total Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {players.map((player, index) => (
-            <tr key={index}>
-              <td>{player}</td>
-              <td>{calculateTotalScore(player)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="scorecard-container">
+      <h2>Final Scores</h2>
+      <div className="scorecard-list">
+        {players.map((player, index) => {
+          // Ensure totalScores[player] exists and is an array before accessing it
+          const playerScores = totalScores[player] || [];
+          const total = playerScores.reduce((sum, score) => sum + score, 0); // Calculate total score
+
+          return (
+            <div key={index} className="scorecard-item">
+              <span className="player-name">{player}</span>
+              <span className="player-total">{total || 0}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
