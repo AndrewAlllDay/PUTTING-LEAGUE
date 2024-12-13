@@ -1,53 +1,55 @@
-/* General Styles */
-body {
-  font-family: "Arial", sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
-}
-
+/* Ensure the entire app container takes up the full height of the screen */
 .app-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 20px;
+  flex-direction: column; /* Stack elements vertically */
+  height: 100vh; /* Full viewport height */
+  justify-content: flex-start; /* Align content to the top */
+  padding: 10px; /* Optional: add some padding to avoid elements touching the edges */
+  box-sizing: border-box; /* Include padding in the element's total width/height */
 }
 
+/* App main content */
 .app-main {
-  background: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  width: 100%;
-  max-width: 600px;
+  flex-grow: 1; /* Allow the main content to expand and fill available space */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the content horizontally */
+  justify-content: flex-start; /* Ensure the content starts from the top */
+  overflow: auto; /* Allow scrolling if the content overflows */
+}
+
+/* Make sure your title is placed at the top */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px; /* Space between the title and the rest of the content */
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
   text-align: center;
 }
 
-/* Title */
-.title {
-  font-size: 1.8rem;
-  margin-bottom: 20px;
-  color: #0077cc;
+ul {
+  list-style-type: none;
+  padding: 0;
 }
 
-/* Button Styling */
 button {
-  background-color: #0077cc;
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #4caf50;
   color: white;
   border: none;
-  padding: 10px 15px;
-  font-size: 1rem;
-  border-radius: 5px;
   cursor: pointer;
-  margin: 10px 0;
-  transition: background-color 0.3s ease;
 }
 
 button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
+  background-color: #ccc;
 }
 
 button:hover:not(:disabled) {
@@ -135,6 +137,48 @@ button:last-child:hover:not(:disabled) {
   width: 100%;
   max-width: 200px;
   font-size: 1em;
+}
+
+.card-title {
+  font-size: 1.5rem; /* Make the font size larger */
+  font-weight: bold; /* Bold font */
+  margin-bottom: 10px; /* Space below the title */
+  color: #333; /* Dark color for the title */
+  text-align: center; /* Center the title */
+}
+
+/* Apply padding to the entire form container */
+.add-player {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+  padding-right: 20px; /* Padding on the right side of the form */
+}
+
+/* Apply styling to the input field */
+.add-player input {
+  flex-grow: 1; /* Allow input to expand */
+  padding: 8px; /* Add padding inside the input */
+  margin-right: 10px; /* Space between input and button */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Apply styling to the button */
+.add-player button {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+/* Button hover effect */
+.add-player button:hover {
+  background-color: #45a049;
 }
 
 /* Responsive Design */

@@ -1,32 +1,33 @@
+// src/components/AddPlayer.js
 import React, { useState } from 'react';
 
-function AddPlayer({ onAdd }) {
-    const [playerName, setPlayerName] = useState('');
+const AddPlayer = ({ onAdd }) => {
+  const [playerName, setPlayerName] = useState('');
 
-    const handleAdd = () => {
-        if (playerName.trim() === '') return; // Prevent adding empty names
-        onAdd(playerName);
-        setPlayerName(''); // Clear input after adding
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (playerName.trim() !== '') {
+      onAdd(playerName);
+      setPlayerName(''); // Clear input after submission
+    }
+  };
 
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            handleAdd();
-        }
-    };
-
-    return (
-        <div>
-            <input
-                type="text"
-                value={playerName}
-                onChange={(e) => setPlayerName(e.target.value)}
-                onKeyDown={handleKeyPress} // Trigger on key press
-                placeholder="Enter player name"
-            />
-            <button onClick={handleAdd}>Add Player</button>
-        </div>
-    );
-}
+  return (
+    <div className="add-player">
+      <form onSubmit={handleSubmit} className="add-player-form">
+        <input
+          type="text"
+          placeholder="Enter player name"
+          value={playerName}
+          onChange={(e) => setPlayerName(e.target.value)}
+          className="player-input"
+        />
+        <button type="submit" className="add-player-button">
+          Add Player
+        </button>
+      </form>
+    </div>
+  );
+};
 
 export default AddPlayer;

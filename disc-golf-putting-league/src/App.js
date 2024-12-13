@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddPlayer from './components/AddPlayer';
-import Round from './components/Round'; // Importing Round as a separate component
+import Round from './components/Round';
 import './App.css';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
   const [cardCreated, setCardCreated] = useState(false);
 
-  const stationMaxScores = [5, 10, 7, 8, 6];
+  const stationMaxScores = [25, 25, 25, 25, 25];
 
   const handleAddPlayer = (playerName) => {
     setPlayers((prevPlayers) => [...prevPlayers, playerName]);
@@ -78,10 +78,14 @@ function App() {
   return (
     <div className="app-container">
       <div className="app-main">
-        {!cardCreated && <h1 className="title">Disc Golf Putting League</h1>}
+        {!cardCreated && <h1 className="title">Johnson Winter Putting League</h1>}
         {!cardCreated && (
           <>
             <AddPlayer onAdd={handleAddPlayer} />
+            
+            {/* Title "Your Card" */}
+            {players.length > 0 && <h2 className="card-title">Your Card</h2>}
+            
             <ul>
               {players.map((player, index) => (
                 <li key={index}>{player}</li>
