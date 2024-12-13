@@ -10,6 +10,7 @@ function Round({
   handleNextStation,
   roundCompleted,
   handleNextRound,
+  onSaveScorecard,
 }) {
   const currentRound = rounds[currentRoundIndex] || {};
 
@@ -17,6 +18,18 @@ function Round({
   const calculateTotalScore = (player) => {
     const playerScores = currentRound[player] || [];
     return playerScores.reduce((sum, score) => sum + score, 0);
+  };
+
+  // Check if round is complete based on all station fields being filled (including 0)
+  const isRoundComplete = () => {
+    return players.every((player) => 
+      currentRound[player] && currentRound[player].every(score => score !== undefined)
+    );
+  };
+
+  // Check if station 5 of round 3 is complete for showing the save button
+  const isSaveButtonVisible = () => {
+    return currentRoundIndex === 2 && currentStationIndex === 4 && isRoundComplete();
   };
 
   return (
@@ -46,12 +59,15 @@ function Round({
           </div>
         );
       })}
-      {players.every((player) => currentRound[player]?.[currentStationIndex] !== 0) &&
+      {players.every((player) => currentRound[player]?.[currentStationIndex] !== undefined) &&
         currentStationIndex < 4 && (
           <button onClick={handleNextStation}>Next Station</button>
         )}
-      {roundCompleted && currentRoundIndex < 2 && currentStationIndex === 4 && (
+      {isRoundComplete() && currentRoundIndex < 2 && currentStationIndex === 4 && (
         <button onClick={handleNextRound}>Next Round</button>
+      )}
+      {isSaveButtonVisible() && (
+        <button onClick={onSaveScorecard}>Save Scorecard</button>
       )}
     </div>
   );

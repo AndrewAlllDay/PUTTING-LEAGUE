@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AddPlayer from './components/AddPlayer';
 import Round from './components/Round';
+import Scorecard from './components/Scorecard';
 import './App.css';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
   const [roundCompleted, setRoundCompleted] = useState(false);
   const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
   const [cardCreated, setCardCreated] = useState(false);
+  const [viewScorecard, setViewScorecard] = useState(false);
 
   const stationMaxScores = [25, 25, 25, 25, 25];
 
@@ -60,56 +62,51 @@ function App() {
     setCurrentRoundIndex((prevIndex) => prevIndex + 1);
   };
 
-  const calculateRoundTotal = (round, player) => {
-    if (!round || !round[player]) return 0;
-    return round[player].reduce((sum, score) => sum + score, 0);
+  const handleSaveScorecard = () => {
+    setViewScorecard(true);
   };
-
-  useEffect(() => {
-    if (rounds.length > 0) {
-      const currentRound = rounds[currentRoundIndex];
-      const allPlayersCompleted = players.every((player) => {
-        return currentRound[player]?.every((score) => score !== 0);
-      });
-      setRoundCompleted(allPlayersCompleted);
-    }
-  }, [rounds, players, currentRoundIndex]);
 
   return (
     <div className="app-container">
       <div className="app-main">
-        {!cardCreated && <h1 className="title">Johnson Winter Putting League</h1>}
-        {!cardCreated && (
+        {viewScorecard ? (
+          // Only render the Scorecard component when viewScorecard is true
+          <Scorecard rounds={rounds} players={players} />
+        ) : (
           <>
-            <AddPlayer onAdd={handleAddPlayer} />
-            
-            {/* Title "Your Card" */}
-            {players.length > 0 && <h2 className="card-title">Your Card</h2>}
-            
-            <ul>
-              {players.map((player, index) => (
-                <li key={index}>{player}</li>
-              ))}
-            </ul>
+            {/* Render other components when viewScorecard is false */}
+            {!cardCreated && <h1 className="title">Johnson Winter Putting League</h1>}
+            {!cardCreated && (
+              <>
+                <AddPlayer onAdd={handleAddPlayer} />
+                {players.length > 0 && <h2 className="card-title">Your Card</h2>}
+                <ul>
+                  {players.map((player, index) => (
+                    <li key={index}>{player}</li>
+                  ))}
+                </ul>
+              </>
+            )}
+            {!cardCreated && players.length >= 2 && (
+              <button onClick={handleStartRound} disabled={players.length < 2}>
+                Create Card
+              </button>
+            )}
+            {rounds.length > 0 && (
+              <Round
+                players={players}
+                rounds={rounds}
+                currentRoundIndex={currentRoundIndex}
+                currentStationIndex={currentStationIndex}
+                stationMaxScores={stationMaxScores}
+                handleUpdateScore={handleUpdateScore}
+                handleNextStation={handleNextStation}
+                roundCompleted={roundCompleted}
+                handleNextRound={handleNextRound}
+                onSaveScorecard={handleSaveScorecard}
+              />
+            )}
           </>
-        )}
-        {!cardCreated && players.length >= 2 && (
-          <button onClick={handleStartRound} disabled={players.length < 2}>
-            Create Card
-          </button>
-        )}
-        {rounds.length > 0 && (
-          <Round
-            players={players}
-            rounds={rounds}
-            currentRoundIndex={currentRoundIndex}
-            currentStationIndex={currentStationIndex}
-            stationMaxScores={stationMaxScores}
-            handleUpdateScore={handleUpdateScore}
-            handleNextStation={handleNextStation}
-            roundCompleted={roundCompleted}
-            handleNextRound={handleNextRound}
-          />
         )}
       </div>
     </div>
