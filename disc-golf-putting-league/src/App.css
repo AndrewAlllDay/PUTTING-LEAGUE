@@ -1,50 +1,149 @@
+/* General Styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
+}
+
 .app-container {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
   padding: 20px;
 }
 
 .app-main {
-  max-width: 600px;
-  margin: auto;
-  background: #f4f4f4;
-  border-radius: 8px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
+  width: 100%;
+  max-width: 600px;
+  text-align: center;
 }
 
-input {
-  margin: 5px;
-  padding: 5px;
+/* Title */
+.title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+  color: #0077cc;
 }
 
+/* Button Styling */
 button {
-  margin: 10px;
-  padding: 10px 20px;
-}
-
-.round-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.previous-round-button {
-  font-size: 24px;
-  /* Arrow size */
-  margin-right: 10px;
-  /* Space between arrow and round number */
+  background-color: #0077cc;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 1rem;
+  border-radius: 5px;
   cursor: pointer;
+  margin: 10px 0;
+  transition: background-color 0.3s ease;
 }
 
+button:disabled {
+  background-color: #aaa;
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #005fa3;
+}
+
+/* Input Styling */
+input[type="number"] {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+input[type="number"]:focus {
+  border-color: #0077cc;
+  outline: none;
+  box-shadow: 0 0 4px rgba(0, 119, 204, 0.5);
+}
+
+/* List Styling */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  background: #f1f1f1;
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+/* Headers */
 h2 {
-  margin: 0;
-  /* Remove default margin on the h2 to prevent space around the round number */
+  font-size: 2.5rem; /* Adjust this size as needed */
+  font-weight: bold;
+  color: #333; /* You can change the color to match your design */
+  margin-bottom: 20px; /* Add spacing below the round number */
 }
 
-.small-title {
-  font-size: 20px;
-  /* smaller font size */
-  font-weight: 300;
-  /* lighter font weight */
-  color: #ccc;
-  /* lighter gray color */
+/* Player List */
+h4 {
+  font-size: 1.2rem;
+  color: #555;
+  margin: 10px 0 5px;
+}
+
+/* Save Scorecard */
+button:last-child {
+  background-color: #28a745;
+}
+
+button:last-child:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.player-score-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.player-score-card h4 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.player-score-card p {
+  margin: 5px 0;
+  font-weight: bold;
+  color: #333;
+}
+
+.player-score-card input {
+  margin-top: 5px;
+  padding: 5px;
+  width: 100%;
+  max-width: 200px;
+  font-size: 1em;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .app-main {
+    width: 95%;
+  }
+
+  button {
+    width: 100%;
+  }
 }
