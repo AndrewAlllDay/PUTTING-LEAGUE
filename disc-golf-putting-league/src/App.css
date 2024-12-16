@@ -12,6 +12,12 @@ body {
   width: 100%;
 }
 
+.App {
+  width: 85%;
+  margin: auto;
+  padding-top: 50px;
+}
+
 /* Ensure the entire app container takes up the full height of the screen */
 .app-container {
   display: flex;
@@ -55,8 +61,9 @@ button {
   margin-top: 10px;
   padding: 12px 24px; /* Larger button for easier tapping */
   font-size: 1.1rem; /* Slightly larger font size */
-  background-color: #4caf50;
-  color: white;
+  background-color: #ace7f1; /* Ice blue color */
+  color: black; /* Black text */
+  font-weight: bold; /* Bold text inside the button */
   border: none;
   cursor: pointer;
   border-radius: 5px;
@@ -68,7 +75,7 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #005fa3;
+  background-color: #7bc8e4; /* Slightly darker ice blue on hover */
 }
 
 /* Input Styling */
@@ -105,6 +112,12 @@ ul li {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: left;
   width: 100%; /* Ensure it takes up full width */
+}
+
+h1 {
+  font-size: 2.8rem;
+  text-align: center;
+  padding-bottom: 20px;
 }
 
 /* Player card header */
@@ -218,40 +231,105 @@ h3 {
   width: 100%;
 }
 
-/* Style for the Scorecard component */
+/* Scorecard Results Styling */
 .scorecard-container {
-  padding: 20px;
+  padding: 30px;
   background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 800px;
+  margin: 20px auto; /* Centered with margin */
 }
 
-.scorecard-list {
-  display: flex;
-  flex-direction: column;
+/* Title of the Scorecard */
+.scorecard-container h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
-.scorecard-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 0;
-  border-bottom: 1px solid #ddd;
+/* Scorecard Table Styling */
+.scorecard-table {
+  width: 100%;
+  border-collapse: collapse; /* Clean up table lines */
+  margin-top: 20px;
 }
 
-.scorecard-item:last-child {
+.scorecard-table th,
+.scorecard-table td {
+  padding: 12px 20px;
+  text-align: left;
+  font-size: 1.1rem;
+  border-bottom: 1px solid #ddd; /* Light border for separation */
+}
+
+.scorecard-table th {
+  background-color: #ace7f1; /* Light blue background for headers */
+  color: black;
+  font-weight: bold;
+}
+
+.scorecard-table td {
+  background-color: #f9f9f9;
+}
+
+.scorecard-table tr:last-child td {
   border-bottom: none;
 }
 
+.scorecard-table tr:hover {
+  background-color: #f1f1f1; /* Slight hover effect */
+}
+
+/* Player Name Styling */
 .player-name {
   font-weight: bold;
   font-size: 1.2rem;
   color: #333;
 }
 
+/* Player Total Styling */
 .player-total {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: bold;
   color: #0077cc;
+}
+
+/* Mobile Layout Adjustments */
+@media (max-width: 600px) {
+  .scorecard-container {
+    padding: 15px;
+  }
+
+  .scorecard-table th,
+  .scorecard-table td {
+    padding: 10px 15px;
+    font-size: 1rem;
+  }
+
+  .scorecard-table {
+    margin-top: 15px;
+  }
+}
+
+/* Next Round Button Styling */
+button.next-round {
+  background-color: #6dbf57; /* Soft green */
+  color: black; /* Black text */
+  font-weight: bold; /* Bold text inside the button */
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px 24px;
+  width: 100%;
+}
+
+button.next-round:disabled {
+  background-color: #ccc;
+}
+
+button.next-round:hover:not(:disabled) {
+  background-color: #56a747; /* Slightly darker green on hover */
 }

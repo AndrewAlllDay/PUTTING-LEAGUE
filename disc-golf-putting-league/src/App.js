@@ -97,7 +97,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Disc Golf Putting League</h1>
+      <h1>Johnson Indoor Putting</h1>
 
       {!cardCreated && (
         <div>

@@ -1,4 +1,3 @@
-// components/SaveScorecard.js
 import React from "react";
 
 const SaveScorecard = ({ players, scores }) => {
@@ -13,9 +12,9 @@ const SaveScorecard = ({ players, scores }) => {
   };
 
   return (
-    <div>
+    <div className="scorecard-container">
       <h2>Scorecard Results</h2>
-      <table>
+      <table className="scorecard-table">
         <thead>
           <tr>
             <th>Player</th>
@@ -25,8 +24,8 @@ const SaveScorecard = ({ players, scores }) => {
         <tbody>
           {players.map((player) => (
             <tr key={player}>
-              <td>{player}</td>
-              <td>{calculateTotalScore(player)}</td>
+              <td className="player-name">{player}</td>
+              <td className="player-total">{calculateTotalScore(player)}</td>
             </tr>
           ))}
         </tbody>
