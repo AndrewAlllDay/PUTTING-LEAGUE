@@ -17,7 +17,7 @@ const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
         onKeyPress={handleKeyPress} // Listen for Enter key press
         placeholder="Enter player name"
       />
-      <button onClick={addPlayer}>Add Player</button>
+      <button className="add-player" onClick={addPlayer}>Add Player</button>
     </div>
   );
 };

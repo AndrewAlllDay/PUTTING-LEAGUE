@@ -3,8 +3,8 @@ import React from "react";
 
 const PlayerList = ({ players }) => (
   <div>
-    <h2>Players:</h2>
-    <ul>
+    <h3>Your Card</h3>
+    <ul className="name-list">
       {players.map((player, index) => (
         <li key={index}>{player}</li>
       ))}

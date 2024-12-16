@@ -1,4 +1,3 @@
-// App.js
 import React, { useState } from "react";
 import "./App.css";
 
@@ -8,6 +7,7 @@ import PlayerList from "./components/PlayerList";
 import PlayerInput from "./components/PlayerInput";
 import RoundStation from "./components/RoundStation";
 import NextRoundButton from "./components/NextRoundButton";
+import Logo from "./components/Logo";
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -18,6 +18,18 @@ const App = () => {
   const [cardCreated, setCardCreated] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [showResults, setShowResults] = useState(false);
+
+  // Reset all states
+  const resetGame = () => {
+    setPlayers([]);
+    setCurrentRound(1);
+    setCurrentStation(1);
+    setScores({});
+    setPlayerName("");
+    setCardCreated(false);
+    setGameOver(false);
+    setShowResults(false);
+  };
 
   const addPlayer = () => {
     if (playerName.trim() !== "" && players.length < 6) {
@@ -97,7 +109,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>Johnson Indoor Putting</h1>
+      <Logo />
 
       {!cardCreated && (
         <div>
@@ -140,6 +152,11 @@ const App = () => {
       )}
 
       {showResults && <SaveScorecard players={players} scores={scores} />}
+
+      {/* Start Over button */}
+      <button className="start-over" onClick={resetGame}>
+        Start Over
+      </button>
     </div>
   );
 };

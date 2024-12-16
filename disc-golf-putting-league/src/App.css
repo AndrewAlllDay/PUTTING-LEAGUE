@@ -117,7 +117,7 @@ ul li {
 h1 {
   font-size: 2.8rem;
   text-align: center;
-  padding-bottom: 20px;
+  padding-bottom: 40px;
 }
 
 /* Player card header */
@@ -182,6 +182,7 @@ button:nth-last-child(2) {
 h3 {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  text-align: center;
 }
 
 /* Mobile Layout Adjustments */
@@ -332,4 +333,47 @@ button.next-round:disabled {
 
 button.next-round:hover:not(:disabled) {
   background-color: #56a747; /* Slightly darker green on hover */
+}
+
+/* Start Over Button at the Bottom of the Viewport */
+button.start-over {
+  position: fixed;
+  bottom: 20px; /* Adjusts the distance from the bottom */
+  left: 50%;
+  transform: translateX(-50%); /* Centers the button horizontally */
+  background-color: #f76c6c; /* Red background for emphasis */
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  width: auto; /* Button will not stretch */
+}
+
+button.start-over:hover {
+  background-color: #d05f5f; /* Darker red on hover */
+}
+
+/* Add Player Button Styling */
+.add-player {
+  padding: 10px;
+  font-size: 1.1rem;
+  width: 100%; /* Full-width button */
+  margin-bottom: 40px; /* Added margin-bottom for spacing */
+}
+
+.logo {
+  width: 100%;
+  margin: auto;
+  padding-bottom: 30px;
+}
+
+.name-list {
+  padding-bottom: 30px;
+}
+
+.RoundStation {
+  text-align: center;
 }

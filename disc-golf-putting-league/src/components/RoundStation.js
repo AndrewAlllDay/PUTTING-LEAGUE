@@ -21,7 +21,7 @@ const RoundStation = ({
 
   return (
     <div>
-      <h2>Round {currentRound} - Station {currentStation}</h2>
+      <h2 className="RoundStation">Round {currentRound} - Station {currentStation}</h2>
       {players.map((player) => (
         <div key={player}>
           <label>{player}:</label>
