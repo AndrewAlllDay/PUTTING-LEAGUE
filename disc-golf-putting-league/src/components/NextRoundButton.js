@@ -1,14 +1,10 @@
-import React from 'react';
+// components/NextRoundButton.js
+import React from "react";
 
-function NextRoundButton({ handleNextRound, players, rounds }) {
-  return (
-    <button
-      onClick={handleNextRound}
-      disabled={players.length === 0 || rounds.length >= 3}
-    >
-      Next Round
-    </button>
-  );
-}
+const NextRoundButton = ({ currentRoundCompleted, currentRound, goToNextRound }) => (
+  currentRoundCompleted && currentRound < 3 ? (
+    <button onClick={goToNextRound}>Next Round</button>
+  ) : null
+);
 
 export default NextRoundButton;

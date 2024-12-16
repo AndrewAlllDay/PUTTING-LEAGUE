@@ -1,116 +1,147 @@
-import React, { useState } from 'react';
-import AddPlayer from './components/AddPlayer';
-import Round from './components/Round';
-import Scorecard from './components/Scorecard';
-import './App.css';
+// App.js
+import React, { useState } from "react";
+import "./App.css";
 
-function App() {
+// Import components
+import SaveScorecard from "./components/SaveScorecard";
+import PlayerList from "./components/PlayerList";
+import PlayerInput from "./components/PlayerInput";
+import RoundStation from "./components/RoundStation";
+import NextRoundButton from "./components/NextRoundButton";
+
+const App = () => {
   const [players, setPlayers] = useState([]);
-  const [rounds, setRounds] = useState([]);
-  const [currentStationIndex, setCurrentStationIndex] = useState(0);
-  const [roundCompleted, setRoundCompleted] = useState(false);
-  const [currentRoundIndex, setCurrentRoundIndex] = useState(0);
+  const [currentRound, setCurrentRound] = useState(1);
+  const [currentStation, setCurrentStation] = useState(1);
+  const [scores, setScores] = useState({});
+  const [playerName, setPlayerName] = useState("");
   const [cardCreated, setCardCreated] = useState(false);
-  const [viewScorecard, setViewScorecard] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
-  const stationMaxScores = [25, 25, 25, 25, 25];
-
-  const handleAddPlayer = (playerName) => {
-    setPlayers((prevPlayers) => [...prevPlayers, playerName]);
+  const addPlayer = () => {
+    if (playerName.trim() !== "" && players.length < 6) {
+      setPlayers([...players, playerName.trim()]);
+      setPlayerName("");
+    } else if (players.length >= 6) {
+      alert("You cannot add more than 6 players to a card.");
+    }
   };
 
-  const handleStartRound = () => {
-    const newRound = players.reduce((acc, player) => {
-      acc[player] = Array(5).fill(0);
-      return acc;
-    }, {});
-    setRounds([newRound]);
-    setCurrentStationIndex(0);
-    setRoundCompleted(false);
-    setCurrentRoundIndex(0);
-    setCardCreated(true);
+  const handleScoreChange = (player, score) => {
+    setScores((prevScores) => ({
+      ...prevScores,
+      [currentRound]: {
+        ...prevScores[currentRound],
+        [currentStation]: {
+          ...prevScores[currentRound]?.[currentStation],
+          [player]: score,
+        },
+      },
+    }));
   };
 
-  const handleUpdateScore = (roundIndex, player, stationIndex, score) => {
-    setRounds((prevRounds) => {
-      const updatedRounds = [...prevRounds];
-      if (!updatedRounds[roundIndex][player]) {
-        updatedRounds[roundIndex][player] = Array(5).fill(0); // Safeguard against undefined players
-      }
-      updatedRounds[roundIndex][player][stationIndex] = score;
-      return updatedRounds;
+  const goToNextStation = () => {
+    setScores((prevScores) => ({
+      ...prevScores,
+      [currentRound]: {
+        ...prevScores[currentRound],
+        [currentStation]: {
+          ...prevScores[currentRound]?.[currentStation],
+          completed: true,
+        },
+      },
+    }));
+    setCurrentStation((prevStation) => prevStation + 1);
+  };
+
+  const goToNextRound = () => {
+    setCurrentRound((prevRound) => prevRound + 1);
+    setCurrentStation(1);
+  };
+
+  const createCard = () => {
+    if (players.length >= 2) {
+      setCardCreated(true);
+    } else {
+      alert("You need at least 2 players to create a card.");
+    }
+  };
+
+  const allScoresFilled =
+    players.length > 0 &&
+    players.every(
+      (player) =>
+        scores[currentRound]?.[currentStation]?.[player] !== undefined &&
+        scores[currentRound]?.[currentStation]?.[player] !== ""
+    );
+
+  const allStationsCompleted =
+    players.length > 0 &&
+    players.every((player) => {
+      return [1, 2, 3, 4, 5].every(
+        (station) => scores[currentRound]?.[station]?.[player] !== undefined
+      );
     });
-  };
 
-  const handleNextStation = () => {
-    setCurrentStationIndex((prevStationIndex) => {
-      const nextStation = (prevStationIndex + 1) % 5;
-      return nextStation;
-    });
-  };
+  const currentRoundCompleted =
+    currentStation === 5 && allStationsCompleted;
 
-  const handleNextRound = () => {
-    if (rounds.length >= 3) return;
+  const gameCompleted =
+    currentRound === 3 && currentStation === 5 && allStationsCompleted;
 
-    const newRound = players.reduce((acc, player) => {
-      acc[player] = Array(5).fill(0);
-      return acc;
-    }, {});
-    setRounds((prevRounds) => [...prevRounds, newRound]);
-    setCurrentStationIndex(0);
-    setRoundCompleted(false);
-    setCurrentRoundIndex((prevIndex) => prevIndex + 1);
-  };
-
-  const handleSaveScorecard = () => {
-    setViewScorecard(true);
+  const saveScorecard = () => {
+    setGameOver(true);
+    setShowResults(true);
   };
 
   return (
-    <div className="app-container">
-      <div className="app-main">
-        {viewScorecard ? (
-          // Only render the Scorecard component when viewScorecard is true
-          <Scorecard rounds={rounds} players={players} />
-        ) : (
-          <>
-            {/* Render other components when viewScorecard is false */}
-            {!cardCreated && <h1 className="title">Johnson Winter Putting League</h1>}
-            {!cardCreated && (
-              <>
-                <AddPlayer onAdd={handleAddPlayer} />
-                {players.length > 0 && <h2 className="card-title">Your Card</h2>}
-                <ul>
-                  {players.map((player, index) => (
-                    <li key={index}>{player}</li>
-                  ))}
-                </ul>
-              </>
-            )}
-            {!cardCreated && players.length >= 2 && (
-              <button onClick={handleStartRound} disabled={players.length < 2}>
-                Create Card
-              </button>
-            )}
-            {rounds.length > 0 && (
-              <Round
-                players={players}
-                rounds={rounds}
-                currentRoundIndex={currentRoundIndex}
-                currentStationIndex={currentStationIndex}
-                stationMaxScores={stationMaxScores}
-                handleUpdateScore={handleUpdateScore}
-                handleNextStation={handleNextStation}
-                roundCompleted={roundCompleted}
-                handleNextRound={handleNextRound}
-                onSaveScorecard={handleSaveScorecard}
-              />
-            )}
-          </>
-        )}
-      </div>
+    <div className="App">
+      <h1>Disc Golf Putting League</h1>
+
+      {!cardCreated && (
+        <div>
+          <PlayerInput
+            playerName={playerName}
+            setPlayerName={setPlayerName}
+            addPlayer={addPlayer}
+          />
+        </div>
+      )}
+
+      {players.length > 0 && <PlayerList players={players} />}
+
+      {!cardCreated && players.length >= 2 && (
+        <button onClick={createCard}>Create Card</button>
+      )}
+
+      {cardCreated && currentRound <= 3 && !gameOver && (
+        <div>
+          <RoundStation
+            players={players}
+            currentRound={currentRound}
+            currentStation={currentStation}
+            scores={scores}
+            handleScoreChange={handleScoreChange}
+            goToNextStation={goToNextStation}
+            allScoresFilled={allScoresFilled} // Pass this prop
+          />
+          <NextRoundButton
+            currentRoundCompleted={currentRoundCompleted}
+            currentRound={currentRound}
+            goToNextRound={goToNextRound}
+          />
+          {gameCompleted && (
+            <div>
+              <button onClick={saveScorecard}>Save Scorecard</button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {showResults && <SaveScorecard players={players} scores={scores} />}
     </div>
   );
-}
+};
 
 export default App;
