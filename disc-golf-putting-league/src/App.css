@@ -380,3 +380,64 @@ button.next-round:hover:not(:disabled) {
 .start-over-btn:hover {
   background-color: #d43f3f;
 }
+
+/* SaveScorecard.css */
+.scorecard-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.scorecard-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.scorecard-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.scorecard-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: #0077cc;
+  color: white;
+  border-radius: 4px;
+}
+
+.scorecard-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.scorecard-row:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.player-name {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.player-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0077cc;
+}

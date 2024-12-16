@@ -88,6 +88,23 @@ const App = () => {
     }
   };
 
+  // Calculate total scores for all players
+  const calculateTotalScores = () => {
+    const totals = {};
+    players.forEach((player) => {
+      let total = 0;
+      for (let round = 1; round <= currentRound; round++) {
+        if (scores[player] && scores[player][round]) {
+          for (let station = 1; station <= TOTAL_STATIONS; station++) {
+            total += parseInt(scores[player][round][station] || 0, 10);
+          }
+        }
+      }
+      totals[player] = total;
+    });
+    return totals;
+  };
+
   // Start over and reset the app to the initial state
   const startOver = () => {
     setPlayers([]);
@@ -143,7 +160,7 @@ const App = () => {
       {/* Save scorecard */}
       {gameCompleted && (
         <div>
-          <SaveScorecard players={players} scores={scores} />
+          <SaveScorecard players={players} totals={calculateTotalScores()} />
         </div>
       )}
 
