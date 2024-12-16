@@ -1,116 +1,110 @@
 import React, { useState } from "react";
-import "./App.css";
-
-// Import components
-import SaveScorecard from "./components/SaveScorecard";
-import PlayerList from "./components/PlayerList";
+import "./App.css"; // Import the CSS file
+import Logo from "./components/Logo";
 import PlayerInput from "./components/PlayerInput";
+import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import NextRoundButton from "./components/NextRoundButton";
-import Logo from "./components/Logo";
+import SaveScorecard from "./components/SaveScorecard";
 
 const App = () => {
   const [players, setPlayers] = useState([]);
+  const [playerName, setPlayerName] = useState("");
+  const [cardCreated, setCardCreated] = useState(false);
   const [currentRound, setCurrentRound] = useState(1);
   const [currentStation, setCurrentStation] = useState(1);
   const [scores, setScores] = useState({});
-  const [playerName, setPlayerName] = useState("");
-  const [cardCreated, setCardCreated] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
-  const [showResults, setShowResults] = useState(false);
+  const [currentRoundCompleted, setCurrentRoundCompleted] = useState(false);
+  const [gameCompleted, setGameCompleted] = useState(false);
 
-  // Reset all states
-  const resetGame = () => {
+  const TOTAL_STATIONS = 5;
+  const TOTAL_ROUNDS = 3;
+
+  // Add player to the list
+  const addPlayer = () => {
+    if (playerName && !players.includes(playerName)) {
+      setPlayers([...players, playerName]);
+      setPlayerName("");
+    }
+  };
+
+  // Create the card
+  const createCard = () => {
+    setCardCreated(true);
+    const initialScores = {};
+    players.forEach((player) => {
+      initialScores[player] = {};
+    });
+    setScores(initialScores);
+  };
+
+  // Handle score change
+  const handleScoreChange = (player, value) => {
+    setScores((prevScores) => {
+      const updatedScores = {
+        ...prevScores,
+        [player]: {
+          ...prevScores[player],
+          [currentRound]: {
+            ...prevScores[player]?.[currentRound],
+            [currentStation]: value,
+          },
+        },
+      };
+
+      checkCurrentRoundCompleted(updatedScores); // Pass updated scores
+      return updatedScores;
+    });
+  };
+
+  // Check if the current round is completed
+  const checkCurrentRoundCompleted = (updatedScores) => {
+    const isCompleted = players.every((player) =>
+      Array.from({ length: TOTAL_STATIONS }, (_, i) =>
+        updatedScores[player]?.[currentRound]?.[i + 1]
+      ).every((score) => score !== undefined && score !== "")
+    );
+    setCurrentRoundCompleted(isCompleted);
+  };
+
+  // Move to the next station
+  const goToNextStation = () => {
+    if (currentStation < TOTAL_STATIONS) {
+      setCurrentStation(currentStation + 1);
+    } else {
+      setCurrentStation(1);
+    }
+    setCurrentRoundCompleted(false);
+  };
+
+  // Move to the next round
+  const goToNextRound = () => {
+    if (currentRound < TOTAL_ROUNDS) {
+      setCurrentRound(currentRound + 1);
+      setCurrentStation(1);
+      setCurrentRoundCompleted(false);
+    } else {
+      setGameCompleted(true);
+    }
+  };
+
+  // Start over and reset the app to the initial state
+  const startOver = () => {
     setPlayers([]);
+    setPlayerName("");
+    setCardCreated(false);
     setCurrentRound(1);
     setCurrentStation(1);
     setScores({});
-    setPlayerName("");
-    setCardCreated(false);
-    setGameOver(false);
-    setShowResults(false);
-  };
-
-  const addPlayer = () => {
-    if (playerName.trim() !== "" && players.length < 6) {
-      setPlayers([...players, playerName.trim()]);
-      setPlayerName("");
-    } else if (players.length >= 6) {
-      alert("You cannot add more than 6 players to a card.");
-    }
-  };
-
-  const handleScoreChange = (player, score) => {
-    setScores((prevScores) => ({
-      ...prevScores,
-      [currentRound]: {
-        ...prevScores[currentRound],
-        [currentStation]: {
-          ...prevScores[currentRound]?.[currentStation],
-          [player]: score,
-        },
-      },
-    }));
-  };
-
-  const goToNextStation = () => {
-    setScores((prevScores) => ({
-      ...prevScores,
-      [currentRound]: {
-        ...prevScores[currentRound],
-        [currentStation]: {
-          ...prevScores[currentRound]?.[currentStation],
-          completed: true,
-        },
-      },
-    }));
-    setCurrentStation((prevStation) => prevStation + 1);
-  };
-
-  const goToNextRound = () => {
-    setCurrentRound((prevRound) => prevRound + 1);
-    setCurrentStation(1);
-  };
-
-  const createCard = () => {
-    if (players.length >= 2) {
-      setCardCreated(true);
-    } else {
-      alert("You need at least 2 players to create a card.");
-    }
-  };
-
-  const allScoresFilled =
-    players.length > 0 &&
-    players.every(
-      (player) =>
-        scores[currentRound]?.[currentStation]?.[player] !== undefined &&
-        scores[currentRound]?.[currentStation]?.[player] !== ""
-    );
-
-  const allStationsCompleted =
-    players.length > 0 &&
-    players.every((player) => {
-      return [1, 2, 3, 4, 5].every(
-        (station) => scores[currentRound]?.[station]?.[player] !== undefined
-      );
-    });
-
-  const currentRoundCompleted =
-    currentStation === 5 && allStationsCompleted;
-
-  const gameCompleted =
-    currentRound === 3 && currentStation === 5 && allStationsCompleted;
-
-  const saveScorecard = () => {
-    setGameOver(true);
-    setShowResults(true);
+    setCurrentRoundCompleted(false);
+    setGameCompleted(false);
   };
 
   return (
     <div className="App">
       <Logo />
 
+      {/* Player input and list */}
       {!cardCreated && (
         <div>
           <PlayerInput
@@ -118,16 +112,17 @@ const App = () => {
             setPlayerName={setPlayerName}
             addPlayer={addPlayer}
           />
+          {players.length > 0 && <PlayerList players={players} />}
         </div>
       )}
 
-      {players.length > 0 && <PlayerList players={players} />}
-
+      {/* Create Card button */}
       {!cardCreated && players.length >= 2 && (
         <button onClick={createCard}>Create Card</button>
       )}
 
-      {cardCreated && currentRound <= 3 && !gameOver && (
+      {/* Game play components */}
+      {cardCreated && !gameCompleted && (
         <div>
           <RoundStation
             players={players}
@@ -136,27 +131,30 @@ const App = () => {
             scores={scores}
             handleScoreChange={handleScoreChange}
             goToNextStation={goToNextStation}
-            allScoresFilled={allScoresFilled} // Pass this prop
           />
           <NextRoundButton
             currentRoundCompleted={currentRoundCompleted}
             currentRound={currentRound}
             goToNextRound={goToNextRound}
           />
-          {gameCompleted && (
-            <div>
-              <button onClick={saveScorecard}>Save Scorecard</button>
-            </div>
-          )}
         </div>
       )}
 
-      {showResults && <SaveScorecard players={players} scores={scores} />}
+      {/* Save scorecard */}
+      {gameCompleted && (
+        <div>
+          <SaveScorecard players={players} scores={scores} />
+        </div>
+      )}
 
-      {/* Start Over button */}
-      <button className="start-over" onClick={resetGame}>
-        Start Over
-      </button>
+      {/* Sticky Start Over Button */}
+      {cardCreated && (
+        <div className="start-over-btn-container">
+          <button className="start-over-btn" onClick={startOver}>
+            Start Over
+          </button>
+        </div>
+      )}
     </div>
   );
 };
