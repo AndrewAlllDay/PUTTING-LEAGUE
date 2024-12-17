@@ -26,7 +26,7 @@ const App = () => {
   const addPlayer = (division) => {
     if (playerName && !players.includes(playerName)) {
       setPlayers([...players, playerName]);
-      setDivisions([...divisions, division]); // Add division to the divisions array
+      setDivisions([...divisions, division]);
       setPlayerName("");
     }
   };
@@ -112,7 +112,7 @@ const App = () => {
     setScores({});
     setCurrentRoundCompleted(false);
     setGameCompleted(false);
-    setDivisions([]);  // Reset divisions
+    setDivisions([]);
   };
 
   const saveScores = async () => {
@@ -170,10 +170,24 @@ const App = () => {
                     />
                   </div>
                 )}
-                {currentStation === 5 && currentRoundCompleted && !gameCompleted && (
+                {currentRound <= 2 && currentStation < 5 && currentRoundCompleted && !gameCompleted && (
+                  <div style={{ marginTop: "20px", textAlign: "center" }}>
+                    <button onClick={goToNextStation} style={{ backgroundColor: "#007bff" }}>
+                      Go to Next Station
+                    </button>
+                  </div>
+                )}
+                {currentRound <= 2 && currentStation === 5 && currentRoundCompleted && !gameCompleted && (
                   <div style={{ marginTop: "20px", textAlign: "center" }}>
                     <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57" }}>
                       Next Round
+                    </button>
+                  </div>
+                )}
+                {currentRound === 3 && currentStation === 5 && currentRoundCompleted && !gameCompleted && (
+                  <div style={{ marginTop: "20px", textAlign: "center" }}>
+                    <button onClick={saveScores} style={{ backgroundColor: "#ff6f61" }}>
+                      Save Scorecard
                     </button>
                   </div>
                 )}

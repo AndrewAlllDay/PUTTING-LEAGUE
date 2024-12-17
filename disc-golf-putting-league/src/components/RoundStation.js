@@ -1,16 +1,15 @@
 import React from "react";
-import "./RoundStation.css"; // Add external stylesheet
+import "./RoundStation.css";
 
 const RoundStation = ({
   players,
-  divisions, // Added divisions prop
+  divisions,
   currentRound,
   currentStation,
   scores,
   handleScoreChange,
   goToNextStation,
 }) => {
-  // Function to calculate running total for a player (resets after each round)
   const calculateRunningTotal = (player) => {
     let total = 0;
     for (let station = 1; station <= currentStation; station++) {
@@ -19,7 +18,6 @@ const RoundStation = ({
     return total;
   };
 
-  // Function to check if all scores for the current station are filled
   const allScoresFilled = () => {
     return players.every(
       (player) =>
@@ -38,12 +36,10 @@ const RoundStation = ({
         Round {currentRound} - Station {currentStation}
       </h2>
 
-      {/* Player Rows */}
       <div className="player-grid">
         {players.map((player, index) => (
           <div key={player} className="player-row">
             <span className="player-name">{player}</span>
-            {/*<span className="player-division">{divisions[index]}</span>*/}
             <input
               type="number"
               className="score-input"
@@ -58,8 +54,7 @@ const RoundStation = ({
         ))}
       </div>
 
-      {/* Button to go to next station */}
-      {allScoresFilled() && (
+      {allScoresFilled() && currentStation < 5 && (
         <button className="next-station-button" onClick={goToNextStation}>
           Go to Next Station
         </button>
