@@ -44,7 +44,7 @@ const Dashboard = () => {
         };
 
         fetchScorecards();
-    }, []);
+    }, []); // Run once when the component mounts
 
     return (
         <div className="dashboard-container">
@@ -53,12 +53,16 @@ const Dashboard = () => {
                 <p className="loading">Loading scores...</p>
             ) : (
                 <div className="scorecard-list">
-                    {scorecards.map((score, index) => (
-                        <div className="scorecard-item" key={index}>
-                            <span className="player-name">{score.player}</span>
-                            <span className="player-score">{score.total}</span>
-                        </div>
-                    ))}
+                    {scorecards.length === 0 ? (
+                        <p>No scores submitted yet.</p>
+                    ) : (
+                        scorecards.map((score, index) => (
+                            <div className="scorecard-item" key={index}>
+                                <span className="player-name">{score.player}</span>
+                                <span className="player-score">{score.total}</span>
+                            </div>
+                        ))
+                    )}
                 </div>
             )}
         </div>
