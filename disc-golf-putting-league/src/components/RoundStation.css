@@ -1,0 +1,72 @@
+/* Grid layout for players - vertical stacking */
+.player-grid {
+  display: flex; /* Flex container for vertical layout */
+  flex-direction: column; /* Stack items vertically */
+  gap: 15px; /* Space between rows */
+  padding: 10px 0;
+}
+
+/* Player row styles */
+.player-row {
+  display: flex;
+  flex-direction: column; /* Stack content inside the player row */
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.player-name {
+  font-weight: bold;
+  color: #444;
+  margin-bottom: 12px; /* Add spacing below the name */
+  text-transform: uppercase;
+}
+
+.score-input {
+  width: 60px;
+  padding: 5px;
+  margin-bottom: 8px; /* Add spacing below the score input */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.running-total {
+  font-size: 1.2rem;
+  color: #555;
+  margin-top: 8px; /* Add spacing above the total */
+}
+
+/* Button styles */
+.next-station-button {
+  display: block;
+  margin: 20px auto 0;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.next-station-button:hover {
+  background-color: #0056b3;
+}
+
+/* Error message */
+.error-message {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  margin-top: 20px;
+}

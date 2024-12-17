@@ -1,4 +1,5 @@
 import React from "react";
+import "./RoundStation.css"; // Add external stylesheet
 
 const RoundStation = ({
   players,
@@ -12,7 +13,6 @@ const RoundStation = ({
   // Function to calculate running total for a player (resets after each round)
   const calculateRunningTotal = (player) => {
     let total = 0;
-    // Only sum the scores for the current round
     for (let station = 1; station <= currentStation; station++) {
       total += parseInt(scores[player]?.[currentRound]?.[station] || 0, 10);
     }
@@ -29,30 +29,30 @@ const RoundStation = ({
   };
 
   if (!players || !divisions || players.length !== divisions.length) {
-    return <div>Error: Mismatch between players and divisions</div>;
+    return <div className="error-message">Error: Mismatch between players and divisions</div>;
   }
 
   return (
-    <div>
-      <h2 className="RoundStation">
+    <div className="round-station-container">
+      <h2 className="round-header">
         Round {currentRound} - Station {currentStation}
       </h2>
 
       {/* Player Rows */}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+      <div className="player-grid">
         {players.map((player, index) => (
           <div key={player} className="player-row">
             <span className="player-name">{player}</span>
-            <span className="player-division">{divisions[index]}</span>
+            {/*<span className="player-division">{divisions[index]}</span>*/}
             <input
               type="number"
+              className="score-input"
               value={scores[player]?.[currentRound]?.[currentStation] || ""}
-              onChange={(e) =>
-                handleScoreChange(player, e.target.value)
-              }
+              onChange={(e) => handleScoreChange(player, e.target.value)}
+              placeholder="Score"
             />
             <span className="running-total">
-              Running Total: {calculateRunningTotal(player)}
+              Total: {calculateRunningTotal(player)}
             </span>
           </div>
         ))}
@@ -60,7 +60,7 @@ const RoundStation = ({
 
       {/* Button to go to next station */}
       {allScoresFilled() && (
-        <button onClick={goToNextStation} style={{ marginTop: "20px" }}>
+        <button className="next-station-button" onClick={goToNextStation}>
           Go to Next Station
         </button>
       )}
