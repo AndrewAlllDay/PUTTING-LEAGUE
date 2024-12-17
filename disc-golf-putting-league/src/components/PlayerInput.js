@@ -3,9 +3,14 @@ import React, { useState } from "react";
 const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
   const [division, setDivision] = useState(""); // State for division
 
+  const handleAddPlayer = () => {
+    addPlayer(division); // Pass division to addPlayer
+    setDivision(""); // Reset division field
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      addPlayer(division); // Pass division to addPlayer
+      handleAddPlayer(); // Use the function to add and reset
     }
   };
 
@@ -26,7 +31,7 @@ const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
       />
       <button
         className="add-player"
-        onClick={() => addPlayer(division)} // Pass division to addPlayer
+        onClick={handleAddPlayer} // Use the function to add and reset
       >
         Add Player
       </button>
