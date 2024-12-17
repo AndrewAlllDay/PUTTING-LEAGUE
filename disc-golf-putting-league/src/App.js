@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Import Router components
 import "./App.css"; // Import the CSS file
 import Logo from "./components/Logo";
 import PlayerInput from "./components/PlayerInput";
@@ -6,6 +7,7 @@ import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
 import { db } from './firebase'; // Import the Firebase configuration
+import Dashboard from './pages/Dashboard'; // Import the Dashboard page
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -139,65 +141,87 @@ const App = () => {
   };
 
   return (
-    <div className="App">
-      <Logo />
+    <Router>
+      <div className="App">
+        <Logo />
 
-      {/* Player input and list */}
-      {!cardCreated && (
-        <div>
-          <PlayerInput
-            playerName={playerName}
-            setPlayerName={setPlayerName}
-            addPlayer={addPlayer}
+        {/* Navigation links 
+        <nav>
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+          </ul>
+        </nav>*/}
+
+        {/* Define the routes */}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <div>
+                {/* Player input and list */}
+                {!cardCreated && (
+                  <div>
+                    <PlayerInput
+                      playerName={playerName}
+                      setPlayerName={setPlayerName}
+                      addPlayer={addPlayer}
+                    />
+                    {players.length > 0 && <PlayerList players={players} />}
+                  </div>
+                )}
+
+                {/* Create Card button */}
+                {!cardCreated && players.length >= 2 && (
+                  <button onClick={createCard}>Create Card</button>
+                )}
+
+                {/* Game play components */}
+                {cardCreated && !gameCompleted && (
+                  <div>
+                    <RoundStation
+                      players={players}
+                      currentRound={currentRound}
+                      currentStation={currentStation}
+                      scores={scores}
+                      handleScoreChange={handleScoreChange}
+                      goToNextStation={goToNextStation}
+                    />
+                  </div>
+                )}
+
+                {/* Show the "Next Round" button in App.js */}
+                {currentStation === 5 && currentRoundCompleted && !gameCompleted && (
+                  <div style={{ marginTop: "20px", textAlign: "center" }}>
+                    <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57" }}>
+                      Next Round
+                    </button>
+                  </div>
+                )}
+
+                {/* Save scorecard */}
+                {gameCompleted && (
+                  <div>
+                    <SaveScorecard players={players} totals={calculateTotalScores()} />
+                  </div>
+                )}
+
+                {/* Sticky Start Over Button */}
+                {cardCreated && (
+                  <div className="start-over-btn-container">
+                    <button className="start-over-btn" onClick={startOver}>
+                      Start Over
+                    </button>
+                  </div>
+                )}
+              </div>
+            }
           />
-          {players.length > 0 && <PlayerList players={players} />}
-        </div>
-      )}
 
-      {/* Create Card button */}
-      {!cardCreated && players.length >= 2 && (
-        <button onClick={createCard}>Create Card</button>
-      )}
-
-      {/* Game play components */}
-      {cardCreated && !gameCompleted && (
-        <div>
-          <RoundStation
-            players={players}
-            currentRound={currentRound}
-            currentStation={currentStation}
-            scores={scores}
-            handleScoreChange={handleScoreChange}
-            goToNextStation={goToNextStation}
-          />
-        </div>
-      )}
-
-      {/* Show the "Next Round" button in App.js */}
-      {currentStation === 5 && currentRoundCompleted && !gameCompleted && (
-        <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57" }}>
-            Next Round
-          </button>
-        </div>
-      )}
-
-      {/* Save scorecard */}
-      {gameCompleted && (
-        <div>
-          <SaveScorecard players={players} totals={calculateTotalScores()} />
-        </div>
-      )}
-
-      {/* Sticky Start Over Button */}
-      {cardCreated && (
-        <div className="start-over-btn-container">
-          <button className="start-over-btn" onClick={startOver}>
-            Start Over
-          </button>
-        </div>
-      )}
-    </div>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
+      </div>
+    </Router>
   );
 };
 

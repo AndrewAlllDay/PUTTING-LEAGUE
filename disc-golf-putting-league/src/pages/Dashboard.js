@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { db } from './firebase'; // Import the Firebase configuration
+import { db } from '../firebase'; // Import the Firebase configuration
 
 const Dashboard = () => {
     const [scores, setScores] = useState([]);
