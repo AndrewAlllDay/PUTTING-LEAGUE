@@ -69,7 +69,7 @@ const SaveScorecard = ({ players, totals }) => {
       {/* Popup notification */}
       {showPopup && (
         <div className="popup">
-          Scores saved to Firebase!
+          Success
         </div>
       )}
     </div>
