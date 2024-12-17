@@ -1,10 +1,11 @@
-// components/PlayerInput.js
 import React, { useState } from "react";
 
 const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
+  const [division, setDivision] = useState(""); // State for division
+
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      addPlayer();
+      addPlayer(division); // Pass division to addPlayer
     }
   };
 
@@ -14,10 +15,21 @@ const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
         type="text"
         value={playerName}
         onChange={(e) => setPlayerName(e.target.value)}
-        onKeyPress={handleKeyPress} // Listen for Enter key press
+        onKeyPress={handleKeyPress}
         placeholder="Enter player name"
       />
-      <button className="add-player" onClick={addPlayer}>Add Player</button>
+      <input
+        type="text"
+        value={division}
+        onChange={(e) => setDivision(e.target.value)}
+        placeholder="Enter division"
+      />
+      <button
+        className="add-player"
+        onClick={() => addPlayer(division)} // Pass division to addPlayer
+      >
+        Add Player
+      </button>
     </div>
   );
 };

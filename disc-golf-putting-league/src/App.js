@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import Router components
-import "./App.css"; // Import the CSS file
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import "./App.css";
 import Logo from "./components/Logo";
 import PlayerInput from "./components/PlayerInput";
 import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
-import Dashboard from "./pages/Dashboard"; // Import Dashboard page
-import { db } from './firebase'; // Import the Firebase configuration
+import Dashboard from "./pages/Dashboard";
+import { db, addDoc, collection } from './firebase';
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -18,19 +18,19 @@ const App = () => {
   const [scores, setScores] = useState({});
   const [currentRoundCompleted, setCurrentRoundCompleted] = useState(false);
   const [gameCompleted, setGameCompleted] = useState(false);
+  const [divisions, setDivisions] = useState([]);
 
   const TOTAL_STATIONS = 5;
   const TOTAL_ROUNDS = 3;
 
-  // Add player to the list
-  const addPlayer = () => {
+  const addPlayer = (division) => {
     if (playerName && !players.includes(playerName)) {
       setPlayers([...players, playerName]);
+      setDivisions([...divisions, division]); // Add division to the divisions array
       setPlayerName("");
     }
   };
 
-  // Create the card
   const createCard = () => {
     setCardCreated(true);
     const initialScores = {};
@@ -40,7 +40,6 @@ const App = () => {
     setScores(initialScores);
   };
 
-  // Handle score change
   const handleScoreChange = (player, value) => {
     setScores((prevScores) => {
       const updatedScores = {
@@ -54,12 +53,11 @@ const App = () => {
         },
       };
 
-      checkCurrentRoundCompleted(updatedScores); // Pass updated scores
+      checkCurrentRoundCompleted(updatedScores);
       return updatedScores;
     });
   };
 
-  // Check if the current round is completed
   const checkCurrentRoundCompleted = (updatedScores) => {
     const isCompleted = players.every((player) =>
       Array.from({ length: TOTAL_STATIONS }, (_, i) =>
@@ -69,7 +67,6 @@ const App = () => {
     setCurrentRoundCompleted(isCompleted);
   };
 
-  // Move to the next station
   const goToNextStation = () => {
     if (currentStation < TOTAL_STATIONS) {
       setCurrentStation(currentStation + 1);
@@ -79,7 +76,6 @@ const App = () => {
     setCurrentRoundCompleted(false);
   };
 
-  // Move to the next round
   const goToNextRound = () => {
     if (currentRound < TOTAL_ROUNDS) {
       setCurrentRound(currentRound + 1);
@@ -87,11 +83,10 @@ const App = () => {
       setCurrentRoundCompleted(false);
     } else {
       setGameCompleted(true);
-      saveScores(); // Save scores to Firebase when game is completed
+      saveScores(); 
     }
   };
 
-  // Calculate total scores for all players
   const calculateTotalScores = () => {
     const totals = {};
     players.forEach((player) => {
@@ -108,7 +103,6 @@ const App = () => {
     return totals;
   };
 
-  // Start over and reset the app to the initial state
   const startOver = () => {
     setPlayers([]);
     setPlayerName("");
@@ -118,18 +112,18 @@ const App = () => {
     setScores({});
     setCurrentRoundCompleted(false);
     setGameCompleted(false);
+    setDivisions([]);  // Reset divisions
   };
 
-  // Save scores to Firebase Firestore
   const saveScores = async () => {
     try {
       const scoresToSave = players.map((player) => ({
         player,
+        division: divisions[players.indexOf(player)], 
         scores: calculateTotalScores()[player],
       }));
 
-      // Save the scores to Firestore collection
-      await db.collection("scores").add({
+      await addDoc(collection(db, "scores"), {
         gameDate: new Date(),
         scores: scoresToSave,
       });
@@ -137,6 +131,7 @@ const App = () => {
       alert("Scores saved to Firebase!");
     } catch (error) {
       console.error("Error saving scores: ", error);
+      alert("Error saving scores to Firebase");
     }
   };
 
@@ -149,7 +144,6 @@ const App = () => {
             path="/"
             element={
               <div>
-                {/* Player input and list */}
                 {!cardCreated && (
                   <div>
                     <PlayerInput
@@ -160,17 +154,14 @@ const App = () => {
                     {players.length > 0 && <PlayerList players={players} />}
                   </div>
                 )}
-
-                {/* Create Card button */}
                 {!cardCreated && players.length >= 2 && (
                   <button onClick={createCard}>Create Card</button>
                 )}
-
-                {/* Game play components */}
                 {cardCreated && !gameCompleted && (
                   <div>
                     <RoundStation
                       players={players}
+                      divisions={divisions} 
                       currentRound={currentRound}
                       currentStation={currentStation}
                       scores={scores}
@@ -179,8 +170,6 @@ const App = () => {
                     />
                   </div>
                 )}
-
-                {/* Show the "Next Round" button in App.js */}
                 {currentStation === 5 && currentRoundCompleted && !gameCompleted && (
                   <div style={{ marginTop: "20px", textAlign: "center" }}>
                     <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57" }}>
@@ -188,15 +177,11 @@ const App = () => {
                     </button>
                   </div>
                 )}
-
-                {/* Save scorecard */}
                 {gameCompleted && (
                   <div>
-                    <SaveScorecard players={players} totals={calculateTotalScores()} />
+                    <SaveScorecard players={players} totals={calculateTotalScores()} divisions={divisions} />
                   </div>
                 )}
-
-                {/* Sticky Start Over Button */}
                 {cardCreated && (
                   <div className="start-over-btn-container">
                     <button className="start-over-btn" onClick={startOver}>

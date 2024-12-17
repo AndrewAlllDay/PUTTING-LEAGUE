@@ -2,6 +2,7 @@ import React from "react";
 
 const RoundStation = ({
   players,
+  divisions, // Added divisions prop
   currentRound,
   currentStation,
   scores,
@@ -27,6 +28,10 @@ const RoundStation = ({
     );
   };
 
+  if (!players || !divisions || players.length !== divisions.length) {
+    return <div>Error: Mismatch between players and divisions</div>;
+  }
+
   return (
     <div>
       <h2 className="RoundStation">
@@ -34,79 +39,32 @@ const RoundStation = ({
       </h2>
 
       {/* Player Rows */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-        {players.map((player) => (
-          <div
-            key={player}
-            style={{
-              padding: "10px",
-              borderRadius: "5px",
-              width: "100%",
-              boxSizing: "border-box",
-            }}
-          >
-            {/* Flex Row for Name and Input */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center", // Align horizontally
-                marginBottom: "10px",
-                justifyContent: "space-between"
-              }}
-            >
-              {/* Player Name (25%) */}
-              <div
-                style={{
-                  flex: "0 0 25%",
-                  fontWeight: "bold",
-                  fontSize: "1.2em",
-                  paddingRight: "10px",
-                }}
-              >
-                {player}
-              </div>
-
-              {/* Score Input (75%) */}
-              <div style={{ flex: "0 0 60%" }}>
-                <input
-                  type="number"
-                  value={
-                    scores[player]?.[currentRound]?.[currentStation] || ""
-                  }
-                  onChange={(e) => handleScoreChange(player, e.target.value)}
-                  style={{
-                    width: "100%",
-                    textAlign: "start",
-                    fontSize: "1.2em",
-                    padding: "5px",
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Running Total */}
-            < div
-              style={{
-                textAlign: "center",
-                fontSize: "1.1em",
-              }}
-            >
-              <strong>Total:</strong> {calculateRunningTotal(player)}
-            </div>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "10px" }}>
+        {players.map((player, index) => (
+          <div key={player} className="player-row">
+            <span className="player-name">{player}</span>
+            <span className="player-division">{divisions[index]}</span>
+            <input
+              type="number"
+              value={scores[player]?.[currentRound]?.[currentStation] || ""}
+              onChange={(e) =>
+                handleScoreChange(player, e.target.value)
+              }
+            />
+            <span className="running-total">
+              Running Total: {calculateRunningTotal(player)}
+            </span>
           </div>
-        ))
-        }
-      </div >
+        ))}
+      </div>
 
-      {/* Next Station Button */}
-      {
-        currentStation < 5 && allScoresFilled() && (
-          <div style={{ marginTop: "20px", textAlign: "center" }}>
-            <button onClick={goToNextStation}>Next Station</button>
-          </div>
-        )
-      }
-    </div >
+      {/* Button to go to next station */}
+      {allScoresFilled() && (
+        <button onClick={goToNextStation} style={{ marginTop: "20px" }}>
+          Go to Next Station
+        </button>
+      )}
+    </div>
   );
 };
 
