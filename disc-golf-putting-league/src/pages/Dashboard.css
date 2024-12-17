@@ -1,63 +1,33 @@
-.dashboard-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    /*background-color: #f9f9f9;*/
-    min-height: 25vh;
+.tables-container {
+  margin: 20px 0;
 }
 
-.dashboard-container h2 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
+.division-table {
+  margin-bottom: 30px;
 }
 
-.scorecard-list {
-    width: 100%;
-    max-width: 600px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    overflow-x: auto;
+.division-table h3 {
+  text-align: left;
+  color: #333;
 }
 
-.scorecard-item {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
 }
 
-.scorecard-item:last-child {
-    border-bottom: none;
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
 }
 
-.player-name {
-    font-weight: bold;
-    color: #444;
+th {
+  background-color: #f4f4f4;
 }
 
-.player-score {
-    color: #6dbf57;
-    font-weight: 600;
-}
-
-/* Hover effect for scorecards */
-.scorecard-item:hover {
-    background-color: #f1f1f1;
-}
-
-.loading {
-    color: #888;
-    font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-    .scorecard-list {
-        width: 90%;
-        padding: 10px;
-    }
+tr:nth-child(even) {
+  background-color: #f9f9f9;
 }

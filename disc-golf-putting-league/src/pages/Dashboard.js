@@ -1,68 +1,78 @@
 import React, { useState, useEffect } from "react";
-import { db } from "../firebase"; // Import the Firebase configuration
-import { collection, getDocs } from "firebase/firestore"; // Import Firestore functions
-import "./Dashboard.css"; // Import the CSS for styling
+import { db } from "../firebase";
+import { collection, getDocs, Timestamp } from "firebase/firestore";
+import "./Dashboard.css";
 
 const Dashboard = () => {
-  const [scorecards, setScorecards] = useState([]);
+  const [scorecards, setScorecards] = useState({});
   const [loading, setLoading] = useState(true);
 
-  // Fetch scorecards from Firestore when the component mounts
+  // Helper function to get today's date in YYYY-MM-DD format
+  const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
+  // Convert Firestore Timestamp to YYYY-MM-DD
+  const convertTimestampToDate = (timestamp) => {
+    const date = timestamp.toDate();
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
+  };
+
   useEffect(() => {
     const fetchScorecards = async () => {
       try {
-        const scoresCollection = collection(db, "scores"); // Correct collection name is 'scores'
-        const scoresSnapshot = await getDocs(scoresCollection); // Fetch all documents in the collection
+        const scoresCollection = collection(db, "scores");
+        const scoresSnapshot = await getDocs(scoresCollection);
+
         const scorecardsList = scoresSnapshot.docs.map((doc) => ({
-          id: doc.id, // Add the document ID to the data
+          id: doc.id,
           ...doc.data(),
         }));
 
-        // Log the raw data from Firestore to inspect it
-        console.log("Scorecards List:", scorecardsList);
+        const todayDate = getCurrentDate();
+        console.log("Today's Date:", todayDate);
 
-        // Flatten the scorecards' scores and compute totals
-        const formattedScores = scorecardsList.map((scorecard) => {
-          const { gameDate, scores } = scorecard;
-          console.log("Processing scorecard:", scorecard); // Log the current scorecard
+        const divisionScores = {};
+        scorecardsList.forEach((scorecard) => {
+          const gameDate =
+            scorecard.gameDate instanceof Timestamp
+              ? convertTimestampToDate(scorecard.gameDate)
+              : scorecard.gameDate;
 
-          const totalScores = scores.map((score) => {
-            console.log("Processing score:", score); // Log each score object
+          console.log("Game Date:", gameDate);
 
-            // Directly use score.scores if it's a single value
-            const total = parseInt(score.scores); // Directly parse the number
+          if (gameDate === todayDate) {
+            scorecard.scores.forEach((score) => {
+              const { player, division, scores } = score;
+              const total = parseInt(scores);
 
-            console.log(`Total for ${score.player}: ${total}`); // Log total score for the player
+              if (!divisionScores[division]) {
+                divisionScores[division] = [];
+              }
 
-            return {
-              player: score.player,
-              division: score.division,
-              total,
-            };
-          });
-          return {
-            gameDate: gameDate,
-            scores: totalScores,
-          };
+              divisionScores[division].push({
+                player,
+                total,
+              });
+            });
+          }
         });
 
-        // Log the formatted scores to check the structure
-        console.log("Formatted Scores:", formattedScores);
+        console.log("Filtered Divisions:", divisionScores);
 
-        // Flatten the scores for all scorecards
-        let allScores = [];
-        formattedScores.forEach((scorecard) => {
-          allScores = allScores.concat(scorecard.scores);
+        // Sort scores within each division
+        Object.keys(divisionScores).forEach((division) => {
+          divisionScores[division].sort((a, b) => b.total - a.total);
         });
 
-        // Log the flattened scores to ensure correct data
-        console.log("All Scores:", allScores);
-
-        // Sort all scores by total score in descending order
-        const sortedScores = allScores.sort((a, b) => b.total - a.total);
-
-        // Update state with the sorted scores
-        setScorecards(sortedScores);
+        setScorecards(divisionScores);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching scorecards: ", error);
@@ -71,25 +81,41 @@ const Dashboard = () => {
     };
 
     fetchScorecards();
-  }, []); // Run once when the component mounts
+  }, []);
 
   return (
     <div className="dashboard-container">
-      <h2>Submitted Scores</h2>
+      <h2>Submitted Scores - Today's Results</h2>
       {loading ? (
         <p className="loading">Loading scores...</p>
       ) : (
-        <div className="scorecard-list">
-          {scorecards.length === 0 ? (
-            <p>No scores submitted yet.</p>
+        <div className="tables-container">
+          {Object.keys(scorecards).length === 0 ? (
+            <p>No scores submitted yet for today.</p>
           ) : (
-            scorecards.map((score, index) => (
-              <div className="scorecard-item" key={index}>
-                <span className="player-name">{score.player}</span>
-                <span className="player-division">{score.division}</span> {/* Display division */}
-                <span className="player-score">{score.total}</span> {/* Display total score */}
-              </div>
-            ))
+            Object.keys(scorecards)
+              .sort((a, b) => a.localeCompare(b))
+              .map((division) => (
+                <div key={division} className="division-table">
+                  <h3>{division} Division</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Player</th>
+                        <th>Total Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {scorecards[division].map((score, index) => (
+                        <tr key={index}>
+                          <td>{score.player}</td>
+                          <td>{score.total}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))
           )}
         </div>
       )}
