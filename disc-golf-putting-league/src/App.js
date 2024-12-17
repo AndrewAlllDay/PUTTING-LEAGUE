@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css"; // Import the CSS file
 import Logo from "./components/Logo";
 import PlayerInput from "./components/PlayerInput";
 import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
+import { db } from './firebase'; // Import the Firebase configuration
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -84,6 +85,7 @@ const App = () => {
       setCurrentRoundCompleted(false);
     } else {
       setGameCompleted(true);
+      saveScores(); // Save scores to Firebase when game is completed
     }
   };
 
@@ -114,6 +116,26 @@ const App = () => {
     setScores({});
     setCurrentRoundCompleted(false);
     setGameCompleted(false);
+  };
+
+  // Save scores to Firebase Firestore
+  const saveScores = async () => {
+    try {
+      const scoresToSave = players.map((player) => ({
+        player,
+        scores: calculateTotalScores()[player],
+      }));
+
+      // Save the scores to Firestore collection
+      await db.collection("scores").add({
+        gameDate: new Date(),
+        scores: scoresToSave,
+      });
+
+      alert("Scores saved to Firebase!");
+    } catch (error) {
+      console.error("Error saving scores: ", error);
+    }
   };
 
   return (
@@ -154,7 +176,7 @@ const App = () => {
       {/* Show the "Next Round" button in App.js */}
       {currentStation === 5 && currentRoundCompleted && !gameCompleted && (
         <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <button onClick={goToNextRound} style={{ backgroundColor: "green" }}>
+          <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57" }}>
             Next Round
           </button>
         </div>

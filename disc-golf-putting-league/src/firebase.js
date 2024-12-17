@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
     apiKey: "AIzaSyCgiPrtFvzMtCQwi0LZd3awJ40cC7ZO8OQ",
     authDomain: "putting-league-scoring.firebaseapp.com",
@@ -10,20 +12,8 @@ const firebaseConfig = {
     appId: "1:133339051886:web:8b98c9829c4d592f80b37f",
     measurementId: "G-LGDBG2MSWT"
 };
+
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-export const saveScorecardToFirestore = async (players, rounds) => {
-    try {
-        await addDoc(collection(db, 'scorecards'), {
-            players,
-            rounds,
-            createdAt: new Date(),
-        });
-        console.log('Scorecard saved!');
-    } catch (error) {
-        console.error('Error saving scorecard:', error);
-    }
-};
 
 export { db };

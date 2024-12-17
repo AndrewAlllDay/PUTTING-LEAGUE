@@ -384,7 +384,7 @@ button.next-round:disabled {
 }
 
 button.next-round:hover:not(:disabled) {
-  background-color: #56a747;
+  background-color: #6dbf57;
   /* Slightly darker green on hover */
 }
 
