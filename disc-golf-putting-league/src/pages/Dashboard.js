@@ -1,74 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../firebase'; // Import the Firebase configuration
+import { collection, getDocs } from 'firebase/firestore'; // Import Firestore functions
 
 const Dashboard = () => {
-    const [scores, setScores] = useState([]);
+    const [scorecards, setScorecards] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // Fetch scores from Firestore when the component mounts
+    // Fetch scorecards from Firestore when the component mounts
     useEffect(() => {
-        const fetchScores = async () => {
-            const scoresSnapshot = await db.collection('scores').get();
-            const scoresList = scoresSnapshot.docs.map(doc => doc.data());
-            setScores(scoresList);
-            setLoading(false);
+        const fetchScorecards = async () => {
+            try {
+                const scoresCollection = collection(db, 'scores'); // Get the scores collection
+                const scoresSnapshot = await getDocs(scoresCollection); // Fetch all documents in the collection
+                const scorecardsList = scoresSnapshot.docs.map(doc => ({
+                    id: doc.id, // Add the document ID to the data
+                    ...doc.data(),
+                }));
+                setScorecards(scorecardsList);
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching scorecards: ", error);
+                setLoading(false);
+            }
         };
 
-        fetchScores();
+        fetchScorecards();
     }, []);
 
-    // Add a new score to Firestore
-    const addScore = async (player, round1, round2) => {
-        const total = round1 + round2;
-        const newScore = { player, round1, round2, total };
-
-        // Save score to Firestore
-        await db.collection('scores').add(newScore);
-
-        // Update local state with the new score
-        setScores([...scores, newScore]);
-    };
-
-    // Remove score from Firestore
-    const removeScore = async (id) => {
-        await db.collection('scores').doc(id).delete();
-
-        // Remove the score from local state
-        setScores(scores.filter(score => score.id !== id));
-    };
-
     return (
-        <div>
-            <h2>Today's Scores</h2>
+        <div className="dashboard-container">
+            <h2>Submitted Scores</h2>
             {loading ? (
                 <p>Loading scores...</p>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Player</th>
-                            <th>Round 1</th>
-                            <th>Round 2</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {scores.map((score, index) => (
-                            <tr key={index}>
-                                <td>{score.player}</td>
-                                <td>{score.round1}</td>
-                                <td>{score.round2}</td>
-                                <td>{score.total}</td>
-                                <td>
-                                    <button onClick={() => removeScore(score.id)}>Remove</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="scorecard-list">
+                    {scorecards.map((scorecard) => (
+                        scorecard.scores && scorecard.scores.map((score, index) => (
+                            <div key={index} className="scorecard-item">
+                                <span className="player-name">{score.player}</span>
+                                <span className="player-score">{score.total}</span>
+                            </div>
+                        ))
+                    ))}
+                </div>
             )}
-
-            <button onClick={() => addScore('John Doe', 52, 54)}>Add Score</button>
         </div>
     );
 };

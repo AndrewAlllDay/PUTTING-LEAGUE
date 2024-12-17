@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Import Router components
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Import Router components
 import "./App.css"; // Import the CSS file
 import Logo from "./components/Logo";
 import PlayerInput from "./components/PlayerInput";
 import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
+import Dashboard from "./pages/Dashboard"; // Import Dashboard page
 import { db } from './firebase'; // Import the Firebase configuration
-import Dashboard from './pages/Dashboard'; // Import the Dashboard page
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -144,16 +144,6 @@ const App = () => {
     <Router>
       <div className="App">
         <Logo />
-
-        {/* Navigation links 
-        <nav>
-          <ul>
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/dashboard">Dashboard</Link></li>
-          </ul>
-        </nav>*/}
-
-        {/* Define the routes */}
         <Routes>
           <Route
             path="/"
@@ -217,7 +207,6 @@ const App = () => {
               </div>
             }
           />
-
           <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
