@@ -4,7 +4,6 @@ import Logo from "./components/Logo";
 import PlayerInput from "./components/PlayerInput";
 import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
-import NextRoundButton from "./components/NextRoundButton";
 import SaveScorecard from "./components/SaveScorecard";
 
 const App = () => {
@@ -149,11 +148,15 @@ const App = () => {
             handleScoreChange={handleScoreChange}
             goToNextStation={goToNextStation}
           />
-          <NextRoundButton
-            currentRoundCompleted={currentRoundCompleted}
-            currentRound={currentRound}
-            goToNextRound={goToNextRound}
-          />
+        </div>
+      )}
+
+      {/* Show the "Next Round" button in App.js */}
+      {currentStation === 5 && currentRoundCompleted && !gameCompleted && (
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
+          <button onClick={goToNextRound} style={{ backgroundColor: "green" }}>
+            Next Round
+          </button>
         </div>
       )}
 

@@ -8,7 +8,8 @@
 }
 
 body {
-  overflow-x: hidden; /* Prevent horizontal overflow */
+  overflow-x: hidden;
+  /* Prevent horizontal overflow */
   width: 100%;
 }
 
@@ -21,53 +22,76 @@ body {
 /* Ensure the entire app container takes up the full height of the screen */
 .app-container {
   display: flex;
-  flex-direction: column; /* Stack elements vertically */
-  height: 100vh; /* Full viewport height */
-  justify-content: flex-start; /* Align content to the top */
-  padding: 15px; /* Added more padding for mobile devices */
-  box-sizing: border-box; /* Include padding in the element's total width/height */
-  overflow-x: hidden; /* Prevent horizontal overflow */
+  flex-direction: column;
+  /* Stack elements vertically */
+  height: 100vh;
+  /* Full viewport height */
+  justify-content: flex-start;
+  /* Align content to the top */
+  padding: 15px;
+  /* Added more padding for mobile devices */
+  box-sizing: border-box;
+  /* Include padding in the element's total width/height */
+  overflow-x: hidden;
+  /* Prevent horizontal overflow */
 }
 
 /* App main content */
 .app-main {
-  flex-grow: 1; /* Allow the main content to expand and fill available space */
+  flex-grow: 1;
+  /* Allow the main content to expand and fill available space */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the content horizontally */
-  justify-content: flex-start; /* Ensure the content starts from the top */
-  overflow: auto; /* Allow scrolling if the content overflows */
-  width: 100%; /* Ensure full width on mobile */
+  align-items: center;
+  /* Center the content horizontally */
+  justify-content: flex-start;
+  /* Ensure the content starts from the top */
+  overflow: auto;
+  /* Allow scrolling if the content overflows */
+  width: 100%;
+  /* Ensure full width on mobile */
 }
 
 /* Title */
 .title {
-  font-size: 1.8rem; /* Smaller title font size for mobile */
+  font-size: 1.8rem;
+  /* Smaller title font size for mobile */
   margin-bottom: 20px;
   text-align: center;
 }
 
 /* Card title */
 .card-title {
-  font-size: 1.5rem; /* Make the font size larger */
-  font-weight: bold; /* Bold font */
-  margin-bottom: 10px; /* Space below the title */
-  color: #333; /* Dark color for the title */
-  text-align: center; /* Center the title */
+  font-size: 1.5rem;
+  /* Make the font size larger */
+  font-weight: bold;
+  /* Bold font */
+  margin-bottom: 10px;
+  /* Space below the title */
+  color: #333;
+  /* Dark color for the title */
+  text-align: center;
+  /* Center the title */
 }
 
 /* Button Styling */
 button {
   margin-top: 10px;
-  padding: 12px 24px; /* Larger button for easier tapping */
-  font-size: 1.1rem; /* Slightly larger font size */
-  background-color: #ace7f1; /* Ice blue color */
-  color: black; /* Black text */
-  font-weight: bold; /* Bold text inside the button */
+  padding: 12px 24px;
+  /* Larger button for easier tapping */
+  font-size: 1.1rem;
+  /* Slightly larger font size */
+  background-color: #ace7f1;
+  /* Ice blue color */
+  color: black;
+  /* Black text */
+  font-weight: bold;
+  /* Bold text inside the button */
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  width: 100%; /* Full-width buttons */
+  width: 100%;
+  /* Full-width buttons */
 }
 
 button:disabled {
@@ -75,14 +99,16 @@ button:disabled {
 }
 
 button:hover:not(:disabled) {
-  background-color: #7bc8e4; /* Slightly darker ice blue on hover */
+  background-color: #7bc8e4;
+  /* Slightly darker ice blue on hover */
 }
 
 /* Input Styling */
 input[type="text"],
 input[type="number"] {
   width: 100%;
-  padding: 10px; /* Increased padding for easier input */
+  padding: 10px;
+  /* Increased padding for easier input */
   font-size: 1rem;
   margin: 10px 0;
   border: 1px solid #ccc;
@@ -106,12 +132,14 @@ ul {
 
 ul li {
   background: #f1f1f1;
-  margin: 10px 0; /* More space between list items */
+  margin: 10px 0;
+  /* More space between list items */
   padding: 12px;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: left;
-  width: 100%; /* Ensure it takes up full width */
+  width: 100%;
+  /* Ensure it takes up full width */
 }
 
 h1 {
@@ -122,7 +150,8 @@ h1 {
 
 /* Player card header */
 h2 {
-  font-size: 1.8rem; /* Adjust header size for mobile */
+  font-size: 1.8rem;
+  /* Adjust header size for mobile */
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
@@ -134,8 +163,10 @@ h2 {
   margin: 10px 0;
   border-radius: 8px;
   background-color: #f9f9f9;
-  width: 100%; /* Wider player score cards */
-  max-width: 800px; /* Max width to prevent it from becoming too large */
+  width: 100%;
+  /* Wider player score cards */
+  max-width: 800px;
+  /* Max width to prevent it from becoming too large */
 }
 
 .player-score-card h4 {
@@ -152,7 +183,8 @@ h2 {
 /* Flexbox improvements for small screens */
 .add-player {
   display: flex;
-  flex-direction: column; /* Stack the input and button vertically */
+  flex-direction: column;
+  /* Stack the input and button vertically */
   align-items: center;
   margin-bottom: 10px;
 }
@@ -161,20 +193,24 @@ h2 {
   margin-bottom: 10px;
   padding: 10px;
   font-size: 1rem;
-  width: 100%; /* Full-width input for easy typing */
+  width: 100%;
+  /* Full-width input for easy typing */
 }
 
 .add-player button {
   padding: 10px;
   font-size: 1.1rem;
-  width: 100%; /* Full-width button */
+  width: 100%;
+  /* Full-width button */
 }
 
 /* Save Scorecard Button Styling */
 button:last-child,
 button:nth-last-child(2) {
-  width: 100%; /* Full width for these critical buttons */
-  padding: 14px; /* Larger buttons for better accessibility */
+  width: 100%;
+  /* Full width for these critical buttons */
+  padding: 14px;
+  /* Larger buttons for better accessibility */
   font-size: 1.1rem;
 }
 
@@ -187,44 +223,52 @@ h3 {
 
 /* Mobile Layout Adjustments */
 @media (max-width: 600px) {
+
   /* App container */
   .app-container {
-    padding: 10px; /* Reduce padding for smaller screens */
+    padding: 10px;
+    /* Reduce padding for smaller screens */
   }
 
   .app-main {
     width: 100%;
-    padding: 10px; /* Padding adjustment */
+    padding: 10px;
+    /* Padding adjustment */
   }
 
   .title {
-    font-size: 1.6rem; /* Smaller title on mobile */
+    font-size: 1.6rem;
+    /* Smaller title on mobile */
     margin-bottom: 15px;
   }
 
   .card-title,
   h4 {
-    font-size: 1.4rem; /* Reduce font size for smaller screens */
+    font-size: 1.4rem;
+    /* Reduce font size for smaller screens */
   }
 
   /* Adjust button to be full width on mobile */
   button {
     width: 100%;
-    font-size: 1.1rem; /* Slightly larger font for easy tapping */
+    font-size: 1.1rem;
+    /* Slightly larger font for easy tapping */
   }
 
   /* Adjust player list styling for mobile */
   ul li {
     padding: 10px;
-    font-size: 1rem; /* Reduce font size for mobile */
+    font-size: 1rem;
+    /* Reduce font size for mobile */
   }
 
   /* Input fields should be larger for ease of use on mobile */
   input[type="text"],
   input[type="number"] {
-    font-size: 1rem;
+    font-size: 1.5rem;
     padding: 12px;
     width: 100%;
+    height: 50px;
   }
 }
 
@@ -240,7 +284,8 @@ h3 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 800px;
-  margin: 20px auto; /* Centered with margin */
+  margin: 20px auto;
+  /* Centered with margin */
 }
 
 /* Title of the Scorecard */
@@ -254,7 +299,8 @@ h3 {
 /* Scorecard Table Styling */
 .scorecard-table {
   width: 100%;
-  border-collapse: collapse; /* Clean up table lines */
+  border-collapse: collapse;
+  /* Clean up table lines */
   margin-top: 20px;
 }
 
@@ -263,11 +309,13 @@ h3 {
   padding: 12px 20px;
   text-align: left;
   font-size: 1.1rem;
-  border-bottom: 1px solid #ddd; /* Light border for separation */
+  border-bottom: 1px solid #ddd;
+  /* Light border for separation */
 }
 
 .scorecard-table th {
-  background-color: #ace7f1; /* Light blue background for headers */
+  background-color: #ace7f1;
+  /* Light blue background for headers */
   color: black;
   font-weight: bold;
 }
@@ -281,13 +329,14 @@ h3 {
 }
 
 .scorecard-table tr:hover {
-  background-color: #f1f1f1; /* Slight hover effect */
+  background-color: #f1f1f1;
+  /* Slight hover effect */
 }
 
 /* Player Name Styling */
 .player-name {
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #333;
 }
 
@@ -317,9 +366,12 @@ h3 {
 
 /* Next Round Button Styling */
 button.next-round {
-  background-color: #6dbf57; /* Soft green */
-  color: black; /* Black text */
-  font-weight: bold; /* Bold text inside the button */
+  background-color: #6dbf57;
+  /* Soft green */
+  color: black;
+  /* Black text */
+  font-weight: bold;
+  /* Bold text inside the button */
   border: none;
   cursor: pointer;
   border-radius: 5px;
@@ -332,15 +384,18 @@ button.next-round:disabled {
 }
 
 button.next-round:hover:not(:disabled) {
-  background-color: #56a747; /* Slightly darker green on hover */
+  background-color: #56a747;
+  /* Slightly darker green on hover */
 }
 
 /* Add Player Button Styling */
 .add-player {
   padding: 10px;
   font-size: 1.1rem;
-  width: 100%; /* Full-width button */
-  margin-bottom: 40px; /* Added margin-bottom for spacing */
+  width: 100%;
+  /* Full-width button */
+  margin-bottom: 40px;
+  /* Added margin-bottom for spacing */
 }
 
 .logo {
@@ -355,6 +410,7 @@ button.next-round:hover:not(:disabled) {
 
 .RoundStation {
   text-align: center;
+  margin-bottom: 20px;
 }
 
 /* Sticky Start Over Button */
@@ -440,4 +496,8 @@ button.next-round:hover:not(:disabled) {
   font-size: 1.2rem;
   font-weight: bold;
   color: #0077cc;
+}
+
+.score-input {
+  margin-bottom: 60px;
 }
