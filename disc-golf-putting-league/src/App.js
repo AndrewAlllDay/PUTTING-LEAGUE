@@ -134,7 +134,6 @@ const App = () => {
 
   const saveScores = async () => {
     try {
-<<<<<<< HEAD
       const roundTotals = calculateTotalRoundScores(); // Calculate round totals
       const totalScores = calculateTotalScores(roundTotals); // Calculate total scores
 
@@ -162,14 +161,6 @@ const App = () => {
       });
 
       // Save the data to Firebase
-=======
-      const scoresToSave = players.map((player) => ({
-        player,
-        division: divisions[players.indexOf(player)], 
-        scores: calculateTotalScores()[player],
-      }));
-
->>>>>>> parent of 299c11b (Update App.js)
       await addDoc(collection(db, "scores"), {
         gameDate: new Date(),
         scores: scoresToSave,
