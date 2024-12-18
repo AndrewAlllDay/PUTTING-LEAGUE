@@ -117,26 +117,42 @@ const App = () => {
     setGameCompleted(false);
     setDivisions([]);
   };
-
   const saveScores = async () => {
     try {
-      const scoresToSave = players.map((player) => ({
-        player,
-        division: divisions[players.indexOf(player)], 
-        scores: calculateTotalScores()[player],
-      }));
-
+      // Prepare detailed scores for each player (including scores by round and station)
+      const scoresToSave = players.map((player) => {
+        const playerScores = {};
+  
+        // Loop through all rounds and stations and collect the scores
+        for (let round = 1; round <= TOTAL_ROUNDS; round++) {
+          playerScores[round] = {}; // Initialize round object
+  
+          for (let station = 1; station <= TOTAL_STATIONS; station++) {
+            // Collect the score for the current round and station
+            playerScores[round][station] = scores[player]?.[round]?.[station] || 0;
+          }
+        }
+  
+        return {
+          player,
+          division: divisions[players.indexOf(player)], // Attach the division if needed
+          scores: playerScores, // Store detailed scores for each round and station
+        };
+      });
+  
+      // Save the data to Firebase
       await addDoc(collection(db, "scores"), {
         gameDate: new Date(),
-        scores: scoresToSave,
+        scores: scoresToSave, // Store detailed scores
       });
-
+  
       alert("Scores saved to Firebase!");
     } catch (error) {
       console.error("Error saving scores: ", error);
       alert("Error saving scores to Firebase");
     }
   };
+  
 
   return (
     <Router>
