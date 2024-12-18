@@ -290,30 +290,28 @@ h3 {
 .scorecard-table {
   width: 100%;
   border-collapse: collapse;
+  /* Clean up table lines */
   margin-top: 20px;
-  table-layout: fixed; /* Ensures columns are aligned with headers */
 }
 
-/* Table header styling */
 .scorecard-table th,
 .scorecard-table td {
   padding: 12px 20px;
   text-align: left;
   font-size: 1.1rem;
   border-bottom: 1px solid #ddd;
-  word-wrap: break-word; /* Ensure content wraps inside the cells */
+  /* Light border for separation */
 }
 
 .scorecard-table th {
   background-color: #ace7f1;
+  /* Light blue background for headers */
   color: black;
   font-weight: bold;
-  text-align: center;
 }
 
 .scorecard-table td {
   background-color: #f9f9f9;
-  text-align: center; /* Center align the content in td */
 }
 
 .scorecard-table tr:last-child td {
@@ -322,34 +320,29 @@ h3 {
 
 .scorecard-table tr:hover {
   background-color: #f1f1f1;
+  /* Slight hover effect */
 }
 
-/* Align player names and scores with more consistent spacing */
+/* Player Name Styling */
 .player-name {
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
   color: #333;
 }
 
+/* Player Total Styling */
 .player-total {
   font-size: 1.3rem;
   font-weight: bold;
   color: #0077cc;
-  text-align: center;
 }
 
-.scorecard-table tr {
-  text-align: left;
-  padding: 8px 15px;
-}
-
-.scorecard-table td,
-.scorecard-table th {
-  text-align: center; /* Align text in the table to center */
-}
-
-/* Adjustments for mobile responsiveness */
+/* Mobile Layout Adjustments */
 @media (max-width: 600px) {
+  .scorecard-container {
+    padding: 15px;
+  }
+
   .scorecard-table th,
   .scorecard-table td {
     padding: 10px 15px;
@@ -361,21 +354,116 @@ h3 {
   }
 }
 
-/* Player Name Styling */
-.player-name {
+/* Next Round Button Styling */
+button.next-round {
+  background-color: #6dbf57;
+  /* Soft green */
+  color: black;
+  /* Black text */
   font-weight: bold;
-  font-size: 1.2rem;
-  color: #333;
+  /* Bold text inside the button */
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 12px 24px;
+  width: 100%;
 }
 
-/* Player total score */
-.player-total {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #0077cc;
+button.next-round:disabled {
+  background-color: #ccc;
+}
+
+button.next-round:hover:not(:disabled) {
+  background-color: #6dbf57;
+  /* Slightly darker green on hover */
+}
+
+/* Add Player Button Styling */
+.add-player {
+  padding: 10px;
+  font-size: 1.1rem;
+  width: 100%;
+  /* Full-width button */
+  margin-bottom: 40px;
+  /* Added margin-bottom for spacing */
 }
 
 .logo {
   width: 100%;
-  padding-bottom: 40px;
+  margin: auto;
+  padding-bottom: 30px;
+}
+
+.name-list {
+  padding-bottom: 30px;
+}
+
+.RoundStation {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* SaveScorecard.css */
+.scorecard-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.scorecard-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.scorecard-table {
+  display: flex;
+  flex-direction: column;
+}
+
+.scorecard-header {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: #0077cc;
+  color: white;
+  border-radius: 4px;
+}
+
+.scorecard-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  margin: 0.2rem 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.scorecard-row:nth-child(odd) {
+  background-color: #f1f1f1;
+}
+
+.player-name {
+  font-size: 1.2rem;
+  color: #555;
+}
+
+.player-score {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #0077cc;
+}
+
+.score-input {
+  margin-bottom: 60px;
 }
