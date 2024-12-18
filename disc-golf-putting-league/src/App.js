@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+// src/App.js
+
+import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./App.css";
 import Logo from "./components/Logo";
@@ -8,6 +10,7 @@ import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
 import Dashboard from "./pages/Dashboard";
 import { db, addDoc, collection } from './firebase';
+import StartOverButton from './components/StartOverButton';  // Import the new component
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -196,13 +199,7 @@ const App = () => {
                     <SaveScorecard players={players} totals={calculateTotalScores()} divisions={divisions} />
                   </div>
                 )}
-                {cardCreated && (
-                  <div className="start-over-btn-container">
-                    <button className="start-over-btn" onClick={startOver}>
-                      Start Over
-                    </button>
-                  </div>
-                )}
+                {cardCreated && <StartOverButton onStartOver={startOver} />} {/* Use StartOverButton here */}
               </div>
             }
           />

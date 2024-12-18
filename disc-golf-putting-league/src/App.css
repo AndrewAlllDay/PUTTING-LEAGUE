@@ -205,16 +205,6 @@ h2 {
   /* Full-width button */
 }
 
-/* Save Scorecard Button Styling */
-button:last-child,
-button:nth-last-child(2) {
-  width: 100%;
-  /* Full width for these critical buttons */
-  padding: 14px;
-  /* Larger buttons for better accessibility */
-  font-size: 1.1rem;
-}
-
 /* Station Header Styling */
 h3 {
   font-size: 1.5rem;
@@ -411,30 +401,6 @@ button.next-round:hover:not(:disabled) {
 .RoundStation {
   text-align: center;
   margin-bottom: 20px;
-}
-
-/* Sticky Start Over Button */
-.start-over-btn-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-
-  text-align: center;
-}
-
-.start-over-btn {
-  background-color: #ff4d4f;
-  color: white;
-  border: none;
-
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-}
-
-.start-over-btn:hover {
-  background-color: #d43f3f;
 }
 
 /* SaveScorecard.css */

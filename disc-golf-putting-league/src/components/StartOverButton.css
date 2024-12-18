@@ -1,0 +1,35 @@
+.start-over-btn-container {
+  position: fixed; /* Fixes the button relative to the viewport */
+  bottom: 10px; /* Positions the button at the very bottom of the viewport */
+  left: 10px; /* Aligns the button to the left of the viewport */
+  margin: 0; /* Removes any extra margin */
+  padding: 10px; /* Adds a small space between the button and the viewport edges */
+}
+
+.start-over-btn {
+  width: 60px; /* Equal width and height for a perfect circle */
+  height: 60px;
+  border-radius: 50%; /* Makes the button round */
+  background-color: #f44336; /* Red background */
+  color: white;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle drop shadow */
+  font-size: 24px; /* Adjust font size for the icon */
+  line-height: 1; /* Ensures proper vertical alignment */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  padding: 0; /* Remove padding to maintain circular shape */
+}
+
+.start-over-btn:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+}
+
+.start-over-btn:active {
+  background-color: #b71c1c; /* Even darker red on click */
+  box-shadow: 0 3px 4px rgba(0, 0, 0, 0.2); /* Subtle shadow on click */
+}
