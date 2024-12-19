@@ -6,9 +6,8 @@ import PlayerInput from "./components/PlayerInput";
 import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
-
-import { db, addDoc, collection } from './firebase';
 import StartOverButton from './components/StartOverButton';  // Import the new component
+import { db, addDoc, collection } from './firebase';
 
 const App = () => {
   const [players, setPlayers] = useState([]);
@@ -146,14 +145,6 @@ const App = () => {
     setShowSaveScorecard(false);  // Reset visibility of SaveScorecard
   };
 
-  const preventSwipeToRefresh = (e) => {
-    if (window.scrollY === 0 && e.touches[0].clientY > 0) {
-      console.log("Swipe-to-refresh prevented");
-      e.preventDefault();
-    }
-  };
-
-
   const saveScores = async () => {
     try {
       const roundTotals = calculateTotalRoundScores(); // Calculate round totals
@@ -237,8 +228,8 @@ const App = () => {
                   </div>
                 )}
                 {currentRound <= 2 && currentStation === 5 && currentRoundCompleted && !gameCompleted && (
-                  <div style={{ marginTop: "20px", textAlign: "center" }}>
-                    <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57" }}>
+                  <div style={{ textAlign: "center" }}>
+                    <button onClick={goToNextRound} style={{ backgroundColor: "#6dbf57", color: "white" }}>
                       Next Round
                     </button>
                   </div>
@@ -260,7 +251,9 @@ const App = () => {
                     />
                   </div>
                 )}
-                {gameCompleted && <StartOverButton startOver={startOver} />}
+                {cardCreated && !gameCompleted && !showSaveScorecard && (
+                  <StartOverButton startOver={startOver} />
+                )}
               </div>
             }
           />
