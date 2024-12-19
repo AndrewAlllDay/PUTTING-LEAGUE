@@ -1,6 +1,4 @@
-// src/App.js
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import "./App.css";
 import Logo from "./components/Logo";
@@ -26,6 +24,22 @@ const App = () => {
 
   const TOTAL_STATIONS = 5;
   const TOTAL_ROUNDS = 3;
+
+  useEffect(() => {
+    const preventSwipeToRefresh = (e) => {
+      if (window.scrollY === 0 && e.touches[0].clientY > 0) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener("touchmove", preventSwipeToRefresh, {
+      passive: false, // Required to make preventDefault work
+    });
+
+    return () => {
+      document.removeEventListener("touchmove", preventSwipeToRefresh);
+    };
+  }, []);
 
   const addPlayer = (division) => {
     if (playerName && !players.includes(playerName)) {
@@ -88,7 +102,7 @@ const App = () => {
     } else {
       setGameCompleted(true);
       setShowSaveScorecard(true);  // Show SaveScorecard component
-      saveScores(); 
+      saveScores();
     }
   };
 
@@ -132,35 +146,38 @@ const App = () => {
     setShowSaveScorecard(false);  // Reset visibility of SaveScorecard
   };
 
+  const preventSwipeToRefresh = (e) => {
+    if (window.scrollY === 0 && e.touches[0].clientY > 0) {
+      console.log("Swipe-to-refresh prevented");
+      e.preventDefault();
+    }
+  };
+
+
   const saveScores = async () => {
     try {
       const roundTotals = calculateTotalRoundScores(); // Calculate round totals
       const totalScores = calculateTotalScores(roundTotals); // Calculate total scores
 
-      // Prepare detailed scores for each player (including scores by round and station)
       const scoresToSave = players.map((player) => {
         const playerScores = {};
 
-        // Loop through all rounds and stations and collect the scores
         for (let round = 1; round <= TOTAL_ROUNDS; round++) {
-          playerScores[round] = {}; // Initialize round object
-
+          playerScores[round] = {};
           for (let station = 1; station <= TOTAL_STATIONS; station++) {
-            // Collect the score for the current round and station
             playerScores[round][station] = scores[player]?.[round]?.[station] || 0;
           }
         }
 
         return {
           player,
-          division: divisions[players.indexOf(player)], // Attach the division if needed
-          roundTotals: roundTotals[player],  // Add the round totals
-          totalScore: totalScores[player],  // Add the total score across all rounds
-          scores: playerScores, // Store detailed scores for each round and station
+          division: divisions[players.indexOf(player)],
+          roundTotals: roundTotals[player],
+          totalScore: totalScores[player],
+          scores: playerScores,
         };
       });
 
-      // Save the data to Firebase
       await addDoc(collection(db, "scores"), {
         gameDate: new Date(),
         scores: scoresToSave,
@@ -193,14 +210,16 @@ const App = () => {
                   </div>
                 )}
                 {!cardCreated && players.length >= 2 && (
-                  <button onClick={createCard}>Create Card</button>
+                  <button className="create-card-button" onClick={createCard}>
+                    Create Card
+                  </button>
                 )}
                 {cardCreated && !gameCompleted && (
                   <div>
                     {!showSaveScorecard && (
                       <RoundStation
                         players={players}
-                        divisions={divisions} 
+                        divisions={divisions}
                         currentRound={currentRound}
                         currentStation={currentStation}
                         scores={scores}
@@ -227,7 +246,7 @@ const App = () => {
                 {currentRound === 3 && currentStation === 5 && currentRoundCompleted && !gameCompleted && !showSaveScorecard && (
                   <div style={{ marginTop: "20px", textAlign: "center" }}>
                     <button onClick={() => setShowSaveScorecard(true)} style={{ backgroundColor: "#ff6f61" }}>
-                      Save Scorecard
+                      Review Scorecard
                     </button>
                   </div>
                 )}

@@ -120,7 +120,7 @@ const RoundStation = ({
 
       {allScoresFilled() && currentStation < 5 && (
         <button className="next-station-button" onClick={goToNextStation}>
-          Go to Next Station
+          Next Station
         </button>
       )}
     </div>

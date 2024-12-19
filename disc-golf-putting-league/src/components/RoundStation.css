@@ -5,6 +5,8 @@
 
 .round-header {
   text-align: center;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
 }
 
 .slider-container {
@@ -16,32 +18,40 @@
 
 /* Style for the slider buttons */
 .slider-button {
-  background-color: white; /* Blue color for the button */
+  background-color: white;
+  /* Blue color for the button */
   border: none;
   color: #ace7f1;
-  padding: 5px; /* Smaller vertical and horizontal padding */
-  font-size: 22px; /* Smaller font size */
+  padding: 5px;
+  /* Smaller vertical and horizontal padding */
+  font-size: 22px;
+  /* Smaller font size */
 
   cursor: pointer;
   transition: background-color 0.3s ease;
-  width: 40px; /* Small width */
-  height: 40px; /* Small height */
+  width: 40px;
+  /* Small width */
+  height: 40px;
+  /* Small height */
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .slider-button:disabled {
-  background-color: white; /* Gray out the button when disabled */
+  background-color: white;
+  /* Gray out the button when disabled */
   cursor: not-allowed;
 }
 
 .slider-button:hover {
-  background-color: white; /* Darker blue on hover */
+  background-color: white;
+  /* Darker blue on hover */
 }
 
 .slider-button:focus {
-  outline: none; /* Remove focus outline */
+  outline: none;
+  /* Remove focus outline */
 }
 
 /* Style for the slider container to give it more space */
@@ -57,7 +67,8 @@
   display: flex;
   justify-content: center;
   overflow: hidden;
-  width: calc(100% - 60px); /* Deducting space for the buttons */
+  width: calc(100% - 60px);
+  /* Deducting space for the buttons */
 }
 
 .player-slider {
@@ -72,7 +83,8 @@
 }
 
 .player-row {
-  flex: 0 0 100%; /* Ensures only one player is shown at a time */
+  flex: 0 0 100%;
+  /* Ensures only one player is shown at a time */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,6 +93,7 @@
 .player-name {
   font-size: 1.5em;
   margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
 .score-input {
@@ -93,7 +106,9 @@
 }
 
 .running-total {
-  font-size: 1.2em;
+  font-size: 1.5em;
+  margin-top: 25px;
+
 }
 
 .next-station-button {

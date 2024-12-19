@@ -14,20 +14,34 @@ const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
     }
   };
 
+  const handlePlayerNameChange = (e) => {
+    const value = e.target.value;
+    // Capitalize the first letter and keep the rest unchanged
+    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    setPlayerName(capitalizedValue);
+  };
+
+  const handleDivisionChange = (e) => {
+    const value = e.target.value;
+    // Capitalize the first letter and keep the rest unchanged
+    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    setDivision(capitalizedValue);
+  };
+
   return (
-    <div>
+    <div className="pb-40">
       <input
         type="text"
         value={playerName}
-        onChange={(e) => setPlayerName(e.target.value)}
+        onChange={handlePlayerNameChange} // Use custom handler
         onKeyPress={handleKeyPress}
-        placeholder="Enter player name"
+        placeholder="Player name"
       />
       <input
         type="text"
         value={division}
-        onChange={(e) => setDivision(e.target.value)}
-        placeholder="Enter division"
+        onChange={handleDivisionChange} // Use custom handler
+        placeholder="Division"
       />
       <button
         className="add-player"
