@@ -7,6 +7,7 @@ import PlayerList from "./components/PlayerList";
 import RoundStation from "./components/RoundStation";
 import SaveScorecard from "./components/SaveScorecard";
 import StartOverButton from './components/StartOverButton';  // Import the new component
+import Dashboard from './pages/Dashboard'
 import { db, addDoc, collection } from './firebase';
 
 const App = () => {
@@ -257,6 +258,7 @@ const App = () => {
               </div>
             }
           />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </div>
     </Router>
