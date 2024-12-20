@@ -1,5 +1,24 @@
-.tables-container {
-  margin: 20px 0;
+table {
+  width: 100%; /* Ensures the table spans the parent container */
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+  width: 50%; /* Each cell takes 50% of the row width */
+  box-sizing: border-box; /* Prevents padding from affecting width */
+}
+
+th {
+  background-color: #f4f4f4;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
 }
 
 .division-table {
@@ -11,25 +30,8 @@
   color: #333;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-th,
-td {
-  border: 1px solid #ccc;
-  padding: 8px;
-  text-align: center;
-}
-
-th {
-  background-color: #f4f4f4;
-}
-
-tr:nth-child(even) {
-  background-color: #f9f9f9;
+.tables-container {
+  margin: 20px 0;
 }
 
 .text-center {
