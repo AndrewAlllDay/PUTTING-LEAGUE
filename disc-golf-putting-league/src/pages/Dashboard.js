@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const [scorecards, setScorecards] = useState({});
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   // Helper function to get today's date in YYYY-MM-DD format
   const getCurrentDate = () => {
@@ -119,6 +121,7 @@ const Dashboard = () => {
           )}
         </div>
       )}
+      <button className="home-button" onClick={() => navigate("/")}>Create a Card</button>
     </div>
   );
 };
