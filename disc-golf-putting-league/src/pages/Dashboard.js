@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
-import { collection, getDocs, Timestamp } from "firebase/firestore";
+import { collection, onSnapshot, Timestamp } from "firebase/firestore";
 import "./Dashboard.css";
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +20,7 @@ const Dashboard = () => {
 
   // Convert Firestore Timestamp to YYYY-MM-DD
   const convertTimestampToDate = (timestamp) => {
+    if (!timestamp?.toDate) return null;
     const date = timestamp.toDate();
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -28,46 +29,34 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    const fetchScorecards = async () => {
-      try {
-        const scoresCollection = collection(db, "scores");
-        const scoresSnapshot = await getDocs(scoresCollection);
+    const scoresCollection = collection(db, "scores");
 
-        const scorecardsList = scoresSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
+    // Subscribe to Firestore changes
+    const unsubscribe = onSnapshot(
+      scoresCollection,
+      (snapshot) => {
         const todayDate = getCurrentDate();
-        console.log("Today's Date:", todayDate);
-
         const divisionScores = {};
-        scorecardsList.forEach((scorecard) => {
+
+        snapshot.docs.forEach((doc) => {
+          const data = doc.data();
           const gameDate =
-            scorecard.gameDate instanceof Timestamp
-              ? convertTimestampToDate(scorecard.gameDate)
-              : scorecard.gameDate;
+            data.gameDate instanceof Timestamp
+              ? convertTimestampToDate(data.gameDate)
+              : data.gameDate;
 
-          console.log("Game Date:", gameDate);
-
-          if (gameDate === todayDate) {
-            scorecard.scores.forEach((score) => {
-              const { player, division, totalScore } = score; // Use totalScore directly
-              const total = totalScore; // No need to parse
-
+          if (gameDate === todayDate && Array.isArray(data.scores)) {
+            data.scores.forEach(({ player, division, totalScore }) => {
               if (!divisionScores[division]) {
                 divisionScores[division] = [];
               }
-
               divisionScores[division].push({
                 player,
-                total,
+                total: totalScore,
               });
             });
           }
         });
-
-        console.log("Filtered Divisions:", divisionScores);
 
         // Sort scores within each division
         Object.keys(divisionScores).forEach((division) => {
@@ -76,13 +65,15 @@ const Dashboard = () => {
 
         setScorecards(divisionScores);
         setLoading(false);
-      } catch (error) {
+      },
+      (error) => {
         console.error("Error fetching scorecards: ", error);
         setLoading(false);
       }
-    };
+    );
 
-    fetchScorecards();
+    // Cleanup listener on component unmount
+    return () => unsubscribe();
   }, []);
 
   return (
@@ -121,7 +112,9 @@ const Dashboard = () => {
           )}
         </div>
       )}
-      <button className="home-button" onClick={() => navigate("/")}>Create a Card</button>
+      <button className="home-button" onClick={() => navigate("/")}>
+        Create a Card
+      </button>
     </div>
   );
 };
