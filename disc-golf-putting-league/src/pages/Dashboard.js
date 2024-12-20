@@ -50,8 +50,8 @@ const Dashboard = () => {
 
           if (gameDate === todayDate) {
             scorecard.scores.forEach((score) => {
-              const { player, division, scores } = score;
-              const total = parseInt(scores);
+              const { player, division, totalScore } = score; // Use totalScore directly
+              const total = totalScore; // No need to parse
 
               if (!divisionScores[division]) {
                 divisionScores[division] = [];
