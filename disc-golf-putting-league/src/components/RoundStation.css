@@ -1,6 +1,8 @@
 .round-station-container {
   position: relative;
   padding: 20px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
 }
 
 .round-header {
@@ -108,7 +110,6 @@
 .running-total {
   font-size: 1.5em;
   margin-top: 25px;
-
 }
 
 .next-station-button {

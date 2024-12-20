@@ -64,66 +64,71 @@ const RoundStation = ({
   }
 
   return (
-    <div
-      className="round-station-container"
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-    >
-      <h2 className="round-header">
-        Round {currentRound} - Station {currentStation}
-      </h2>
+    <>
+      <div
+        className="round-station-container"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <h2 className="round-header">
+          Round {currentRound} - Station {currentStation}
+        </h2>
 
-      <div className="slider-container">
-        <button
-          className="slider-button"
-          onClick={prevSlide}
-          disabled={currentSlide === 0}
-        >
-          &lt;
-        </button>
-
-        <div className="player-slider">
-          {/* The grid is now controlled by the currentSlide index to only show one player at a time */}
-          <div
-            className="player-grid"
-            style={{
-              transform: `translateX(-${currentSlide * 100}%)`, // Moves the player-grid based on currentSlide
-              transition: "transform 0.3s ease", // Smooth transition for sliding
-            }}
+        <div className="slider-container">
+          <button
+            className="slider-button"
+            onClick={prevSlide}
+            disabled={currentSlide === 0}
           >
-            {players.map((player, index) => (
-              <div key={player} className="player-row">
-                <span className="player-name">{player}</span>
-                <input
-                  type="number"
-                  className="score-input"
-                  value={scores[player]?.[currentRound]?.[currentStation] || ""}
-                  onChange={(e) => handleScoreChange(player, e.target.value)}
-                  placeholder="Score"
-                />
-                <span className="running-total">
-                  Total: {calculateRunningTotal(player)}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+            &lt;
+          </button>
 
-        <button
-          className="slider-button"
-          onClick={nextSlide}
-          disabled={currentSlide === players.length - 1}
-        >
-          &gt;
-        </button>
+          <div className="player-slider">
+            {/* The grid is now controlled by the currentSlide index to only show one player at a time */}
+            <div
+              className="player-grid"
+              style={{
+                transform: `translateX(-${currentSlide * 100}%)`, // Moves the player-grid based on currentSlide
+                transition: "transform 0.3s ease", // Smooth transition for sliding
+              }}
+            >
+              {players.map((player, index) => (
+                <div key={player} className="player-row">
+                  <span className="player-name">{player}</span>
+                  <input
+                    type="number"
+                    className="score-input"
+                    value={scores[player]?.[currentRound]?.[currentStation] || ""}
+                    onChange={(e) => handleScoreChange(player, e.target.value)}
+                    placeholder="Score"
+                  />
+                  <span className="running-total">
+                    Total: {calculateRunningTotal(player)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button
+            className="slider-button"
+            onClick={nextSlide}
+            disabled={currentSlide === players.length - 1}
+          >
+            &gt;
+          </button>
+        </div>
       </div>
 
+      {/* Move the next station button completely outside of the round-station-container */}
       {allScoresFilled() && currentStation < 5 && (
-        <button className="next-station-button" onClick={goToNextStation}>
-          Next Station
-        </button>
+        <div className="navigation-buttons">
+          <button className="next-station-button" onClick={goToNextStation}>
+            Next Station
+          </button>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 

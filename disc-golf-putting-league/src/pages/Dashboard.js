@@ -87,7 +87,7 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
-      <h2>Submitted Scores - Today's Results</h2>
+      <h2 className="text-center">Today's Results</h2>
       {loading ? (
         <p className="loading">Loading scores...</p>
       ) : (
