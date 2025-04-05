@@ -22,10 +22,10 @@ const PlayerInput = ({ playerName, setPlayerName, addPlayer }) => {
   };
 
   const handleDivisionChange = (e) => {
-    const value = e.target.value;
-    // Capitalize the first letter and keep the rest unchanged
-    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
-    setDivision(capitalizedValue);
+    const value = e.target.value.toUpperCase(); // Capitalize input
+    if (["A", "B", "F", "Y"].includes(value) || value === "") {
+      setDivision(value); // Only set the division if it's one of the valid values
+    }
   };
 
   return (
